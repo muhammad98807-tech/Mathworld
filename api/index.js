@@ -24,8 +24,8 @@ if (mongoURI) {
 
 // Middleware
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, '../views'));
-app.use(express.static(path.join(__dirname, '../public')));
+app.set('views', path.join(process.cwd(), 'views'));
+app.use(express.static(path.join(process.cwd(), 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -66,3 +66,4 @@ app.listen(PORT, '0.0.0.0', () => {
 });
 
 module.exports = app;
+
