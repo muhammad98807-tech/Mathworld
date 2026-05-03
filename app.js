@@ -9,10 +9,15 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Database Connection
-mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log('Connected to Local MongoDB'))
-    .catch(err => console.error('MongoDB connection error:', err));
+// Graceful Database Connection
+const mongoURI = process.env.MONGO_URI;
+if (mongoURI) {
+    mongoose.connect(mongoURI)
+        .then(() => console.log('Connected to MongoDB'))
+        .catch(err => console.error('MongoDB connection error:', err));
+} else {
+    console.log('WARNING: No MONGO_URI found. Running in "Demo Mode" without a database.');
+}
 
 // Middleware
 app.set('view engine', 'ejs');
@@ -33,6 +38,7 @@ const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
 app.use('/auth', authRoutes);
 app.use('/admin', adminRoutes);
+
 app.get('/', (req, res) => res.render('index'));
 app.get('/about', (req, res) => res.render('about'));
 app.get('/contact', (req, res) => res.render('contact'));
@@ -40,6 +46,14 @@ app.get('/signin', (req, res) => res.render('signin'));
 app.get('/dashboard', (req, res) => res.render('dashboard'));
 app.get('/faq', (req, res) => res.render('faq'));
 
+// Catch-all to prevent crashes on missing DB operations
+app.use((req, res, next) => {
+    if (!mongoose.connection.readyState && req.path.startsWith('/admin')) {
+        return res.status(503).send('Database not connected. Admin features are unavailable in Demo Mode.');
+    }
+    next();
+});
+
 app.listen(PORT, () => {
-    console.log('Server is running on http://localhost:' + PORT);
+    console.log('Server is running on PORT ' + PORT);
 });
