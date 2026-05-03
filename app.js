@@ -7,7 +7,7 @@ const session = require('express-session');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080; // Changed default to 8080 as some free tiers prefer it
 
 // Graceful Database Connection
 const mongoURI = process.env.MONGO_URI;
@@ -16,7 +16,7 @@ if (mongoURI) {
         .then(() => console.log('Connected to MongoDB'))
         .catch(err => console.error('MongoDB connection error:', err));
 } else {
-    console.log('WARNING: No MONGO_URI found. Running in "Demo Mode" without a database.');
+    console.log('WARNING: No MONGO_URI found. Running in Demo Mode.');
 }
 
 // Middleware
@@ -48,12 +48,13 @@ app.get('/faq', (req, res) => res.render('faq'));
 
 // Catch-all to prevent crashes on missing DB operations
 app.use((req, res, next) => {
-    if (!mongoose.connection.readyState && req.path.startsWith('/admin')) {
-        return res.status(503).send('Database not connected. Admin features are unavailable in Demo Mode.');
+    if (!mongoose.connection.readyState && (req.path.startsWith('/admin') || req.path.startsWith('/auth'))) {
+        return res.status(503).send('Database not connected. This feature is unavailable in Demo Mode.');
     }
     next();
 });
 
-app.listen(PORT, () => {
-    console.log('Server is running on PORT ' + PORT);
+// Use 0.0.0.0 to ensure the server is reachable on cloud platforms
+app.listen(PORT, '0.0.0.0', () => {
+    console.log('Server is running on port ' + PORT);
 });
