@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MathWorld Primary | Grades 1–5</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+ <!-- Website Icon / Favicon -->
+ 
+  <link rel="icon" type="image/png" href="https://img.icons8.com/color/48/math.png">
+  <link rel="shortcut icon" type="image/png" href="https://img.icons8.com/color/48/math.png">
+  <style>
+
+     /* Scroll Up/Down Buttons */
+.scroll-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--violet), #A78BFA);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+}
+
+#scrollDownBtn {
+  bottom: 80px;  /* Down button upar rahega */
+}
+
+.scroll-btn:hover {
+  transform: scale(1.1);
+  background: linear-gradient(135deg, var(--yellow), #FFB347);
+  color: var(--navy);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.scroll-btn:active {
+  transform: scale(0.95);
+}
+
+/* Hide buttons initially, show when needed */
+.scroll-btn {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+}
+
+.scroll-btn.show {
+  opacity: 1;
+  visibility: visible;
+}
+    :root {
+      --yellow:#FFD600; --coral:#FF6B6B; --teal:#00C9B1; --violet:#7C5CFC;
+      --sky:#38BDF8; --green:#22C55E; --orange:#FB923C; --navy:#1E2A4A;
+      --cream:#FFFBF0; --card-r:16px;
+      --g1:#FF6B6B; --g2:#FB923C; --g3:#D4AC00; --g4:#22C55E; --g5:#7C5CFC;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { font-family:'Nunito',sans-serif; background:var(--cream); color:var(--navy); min-height:100vh; }
+    h1,h2,h3,h4,.brand { font-family:'Fredoka One',cursive; }
+    body::before {
+      content:''; position:fixed; inset:0;
+      background-image:radial-gradient(circle,#e2d9c8 1px,transparent 1px);
+      background-size:28px 28px; opacity:.5; pointer-events:none; z-index:0;
+    }
+
+    /* ── NAV ── */
+    #main-nav {
+      background:var(--navy); padding:.6rem 1.5rem;
+      position:sticky; top:0; z-index:1000;
+      box-shadow:0 4px 20px rgba(0,0,0,.2);
+    }
+    .brand { font-size:1.7rem; color:var(--yellow); letter-spacing:.5px; text-decoration:none; display:flex; align-items:center; gap:.4rem; }
+    .brand .star { font-size:1.3rem; animation:spin 6s linear infinite; display:inline-block; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .nav-link-btn {
+      background:transparent; border:2.5px solid transparent; color:#CBD5E1;
+      font-family:'Nunito',sans-serif; font-weight:700; font-size:.95rem;
+      padding:.45rem 1rem; border-radius:50px; cursor:pointer; transition:all .2s;
+      text-decoration:none; display:inline-flex; align-items:center; gap:.35rem;
+    }
+    .nav-link-btn:hover,.nav-link-btn.active { border-color:var(--yellow); color:var(--yellow); background:rgba(255,214,0,.08); }
+    #role-toggle-wrap { display:flex; align-items:center; gap:.6rem; background:rgba(255,255,255,.07); border-radius:50px; padding:.3rem .8rem; }
+    #role-toggle-wrap span { font-size:.8rem; font-weight:700; color:#94A3B8; }
+    .form-check-input:checked { background-color:var(--teal); border-color:var(--teal); }
+    #role-label { font-weight:800; font-size:.85rem; padding:.2rem .75rem; border-radius:50px; transition:all .3s; }
+    #role-label.student { background:var(--sky); color:var(--navy); }
+    #role-label.teacher { background:var(--teal); color:var(--navy); }
+
+    /* ── PAGES ── */
+    .page { display:none; }
+    .page.active { display:block; }
+    .page-content { position:relative; z-index:1; }
+
+    /* ── HERO ── */
+<!-- Search Section -->
+<div class="container mt-n4">
+    <div class="bg-white p-4 rounded-4 shadow-sm mx-auto" style="max-width: 800px; position: relative; margin-top: -40px; z-index: 10;">
+        <div class="row g-2">
+            <div class="col-md-7">
+                <div class="input-group">
+                    <span class="input-group-text bg-transparent border-end-0"><i class="bi bi-search"></i></span>
+                    <input type="text" class="form-control border-start-0" placeholder="Search for 'Fractions', 'Shapes'...">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <select class="form-select"> <!-- Search Categories -->
+                    <option selected>All Topics</option>
+                    <option>Numbers</option>
+                    <option>Geometry</option>
+                    <option>Algebra</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary-custom w-100">Find</button>
+            </div>
+        </div>
+    </div>
+</div>
+    #page-home { position:relative; z-index:1; min-height:calc(100vh - 66px); }
+    .hero {
+      background:linear-gradient(135deg,var(--violet) 0%,var(--navy) 60%,#0F172A 100%);
+      padding:5rem 1.5rem 4rem; text-align:center; position:relative; overflow:hidden;
+    }
+    .hero::after {
+      content:''; position:absolute; bottom:-2px; left:0; right:0; height:60px;
+      background:var(--cream); clip-path:ellipse(55% 100% at 50% 100%);
+    }
+    .hero-badge {
+      display:inline-flex; align-items:center; gap:.5rem;
+      background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2);
+      color:#E2E8F0; font-size:.85rem; font-weight:700; border-radius:50px;
+      padding:.35rem 1rem; margin-bottom:1.2rem; backdrop-filter:blur(6px);
+    }
+    .hero h1 { font-size:clamp(2.4rem,6vw,4.2rem); color:#fff; line-height:1.1; margin-bottom:1rem; }
+    .hero h1 span { color:var(--yellow); }
+    .hero p { color:#CBD5E1; font-size:1.1rem; max-width:560px; margin:0 auto 2rem; }
+    .hero-btn {
+      background:var(--yellow); color:var(--navy); font-weight:800; font-size:1rem;
+      padding:.75rem 2rem; border-radius:50px; border:none; cursor:pointer;
+      font-family:'Nunito',sans-serif; transition:transform .2s,box-shadow .2s;
+      box-shadow:0 4px 20px rgba(255,214,0,.4);
+    }
+    .hero-btn:hover { transform:translateY(-3px); box-shadow:0 8px 28px rgba(255,214,0,.5); }
+
+    /* ── GRADE CARDS (home) ── */
+    .grade-card {
+      border-radius:var(--card-r); border:none; overflow:hidden;
+      box-shadow:0 4px 24px rgba(0,0,0,.08); transition:transform .22s,box-shadow .22s; cursor:pointer;
+    }
+    .grade-card:hover { transform:translateY(-6px); box-shadow:0 12px 36px rgba(0,0,0,.14); }
+    .grade-card .card-top { height:8px; }
+    .grade-card .icon-wrap {
+      width:64px; height:64px; border-radius:50%; display:flex; align-items:center;
+      justify-content:center; font-size:2rem; margin:1.4rem auto .8rem;
+    }
+
+    /* ── SECTION TITLES ── */
+    .section-title {
+      font-size:2rem; font-family:'Fredoka One',cursive; color:var(--navy);
+      position:relative; display:inline-block; margin-bottom:.2rem;
+    }
+    .section-subtitle { color:#64748B; font-size:1rem; }
+    .sticky-section-bar {
+      background:rgba(255,251,240,.92); backdrop-filter:blur(8px);
+      padding:1.4rem 0 .6rem; position:sticky; top:66px; z-index:100;
+      border-bottom:1px solid #E2E8F0;
+    }
+
+    /* ── GRADE HUB PAGE ── */
+    .grade-hub-header {
+      padding:2.5rem 0 1.5rem;
+      text-align:center;
+    }
+    .grade-selector-tabs {
+      display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin-bottom:2rem;
+    }
+    .grade-tab {
+      display:flex; flex-direction:column; align-items:center; gap:.3rem;
+      padding:.9rem 1.4rem; border-radius:16px; cursor:pointer;
+      border:3px solid transparent; background:#fff; font-weight:700;
+      font-family:'Fredoka One',cursive; font-size:1.05rem; transition:all .25s;
+      box-shadow:0 3px 12px rgba(0,0,0,.07); min-width:100px;
+    }
+    .grade-tab:hover { transform:translateY(-4px); box-shadow:0 8px 24px rgba(0,0,0,.12); }
+    .grade-tab.active { color:#fff !important; transform:translateY(-4px); box-shadow:0 8px 24px rgba(0,0,0,.18); }
+    .grade-tab .tab-emoji { font-size:1.6rem; }
+    .grade-tab .tab-topics { font-family:'Nunito',sans-serif; font-size:.7rem; font-weight:600; opacity:.75; }
+
+    /* ── GRADE CONTENT PANEL ── */
+    .grade-panel { display:none; }
+    .grade-panel.active { display:block; animation:fadeUp .35s ease both; }
+
+    .panel-top-bar {
+      border-radius:20px; padding:1.5rem 2rem; margin-bottom:1.5rem; color:#fff;
+      display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
+    }
+    .panel-top-bar h2 { font-family:'Fredoka One',cursive; font-size:2rem; margin:0; }
+    .panel-top-bar p { margin:0; opacity:.9; font-size:.95rem; }
+
+    /* Sub-tabs inside grade panel */
+    .sub-tabs {
+      display:flex; gap:.5rem; margin-bottom:1.5rem; flex-wrap:wrap;
+      border-bottom:2px solid #E2E8F0; padding-bottom:.5rem;
+    }
+    .sub-tab {
+      padding:.5rem 1.2rem; border-radius:50px; cursor:pointer; border:none;
+      font-family:'Nunito',sans-serif; font-weight:700; font-size:.9rem;
+      background:#F1F5F9; color:#64748B; transition:all .2s;
+    }
+    .sub-tab:hover { background:#E2E8F0; }
+    .sub-tab.active { color:#fff; }
+
+    /* ── LECTURE / PDF ITEMS ── */
+    .pdf-item {
+      display:flex; align-items:center; justify-content:space-between;
+      background:#fff; border-radius:12px; padding:.85rem 1.1rem;
+      margin-bottom:.6rem; box-shadow:0 2px 8px rgba(0,0,0,.06); transition:all .2s;
+    }
+    .pdf-item:hover { box-shadow:0 4px 16px rgba(0,0,0,.1); transform:translateX(3px); }
+    .pdf-icon { width:40px;height:40px;background:#FEE2E2;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#EF4444;font-size:1.1rem;margin-right:.8rem;flex-shrink:0; }
+    .pdf-meta { flex:1; }
+    .pdf-meta strong { display:block;font-size:.95rem;color:var(--navy); }
+    .pdf-meta span { font-size:.78rem;color:#94A3B8; }
+
+    /* ── YOUTUBE CARDS ── */
+    .yt-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1rem; }
+    .yt-card {
+      background:#fff; border-radius:14px; overflow:hidden;
+      box-shadow:0 3px 14px rgba(0,0,0,.07); transition:all .22s; cursor:pointer;
+    }
+    .yt-card:hover { transform:translateY(-4px); box-shadow:0 10px 28px rgba(0,0,0,.12); }
+    .yt-thumb {
+      position:relative; background:#1E2A4A; aspect-ratio:16/9;
+      display:flex; align-items:center; justify-content:center; overflow:hidden;
+    }
+    .yt-thumb img { width:100%; height:100%; object-fit:cover; }
+    .yt-thumb .play-btn {
+      position:absolute; width:52px; height:52px; background:rgba(255,0,0,.9);
+      border-radius:50%; display:flex; align-items:center; justify-content:center;
+      color:#fff; font-size:1.4rem; transition:transform .2s;
+    }
+    .yt-card:hover .play-btn { transform:scale(1.15); }
+    .yt-info { padding:.9rem 1rem; }
+    .yt-info strong { display:block; font-size:.9rem; color:var(--navy); margin-bottom:.2rem; }
+    .yt-info span { font-size:.75rem; color:#94A3B8; }
+    .yt-duration {
+      position:absolute; bottom:.4rem; right:.4rem; background:rgba(0,0,0,.75);
+      color:#fff; font-size:.7rem; font-weight:700; padding:.15rem .4rem; border-radius:4px;
+    }
+
+    /* YouTube Modal */
+    .yt-modal-overlay {
+      display:none; position:fixed; inset:0; background:rgba(0,0,0,.85);
+      z-index:9998; align-items:center; justify-content:center;
+    }
+    .yt-modal-overlay.open { display:flex; }
+    .yt-modal {
+      background:#000; border-radius:16px; overflow:hidden; width:90%; max-width:840px;
+      position:relative; box-shadow:0 20px 60px rgba(0,0,0,.5);
+    }
+    .yt-modal iframe { width:100%; aspect-ratio:16/9; border:none; display:block; }
+    .yt-modal-close {
+      position:absolute; top:.6rem; right:.6rem; z-index:2;
+      background:rgba(255,255,255,.15); border:none; color:#fff; border-radius:50%;
+      width:36px; height:36px; font-size:1.2rem; cursor:pointer; display:flex;
+      align-items:center; justify-content:center; transition:background .2s;
+    }
+    .yt-modal-close:hover { background:rgba(255,255,255,.3); }
+
+    /* ── TIMETABLE ── */
+    .timetable-wrap { overflow-x:auto; }
+    .timetable {
+      width:100%; border-collapse:separate; border-spacing:4px;
+      min-width:640px;
+    }
+    .timetable th {
+      background:var(--navy); color:#fff; font-family:'Fredoka One',cursive;
+      font-size:.95rem; font-weight:400; padding:.7rem .9rem; border-radius:8px; text-align:center;
+    }
+    .timetable td {
+      background:#fff; border-radius:10px; padding:.75rem .9rem; text-align:center;
+      font-size:.85rem; font-weight:600; vertical-align:middle;
+      box-shadow:0 2px 6px rgba(0,0,0,.05); min-width:110px; transition:all .2s;
+    }
+    .timetable td:hover { transform:scale(1.04); box-shadow:0 4px 12px rgba(0,0,0,.1); }
+    .timetable td.slot-active { color:#fff; }
+    .timetable td.slot-break { background:#F8FAFC; color:#94A3B8; font-style:italic; }
+    .timetable .row-label { background:#F1F5F9; color:var(--navy); font-weight:800; font-size:.82rem; text-align:right; padding-right:1rem; }
+    .timetable-legend { display:flex; gap:.75rem; flex-wrap:wrap; margin-top:.75rem; }
+    .legend-dot { display:inline-flex; align-items:center; gap:.35rem; font-size:.8rem; font-weight:700; }
+    .legend-dot span { width:14px; height:14px; border-radius:4px; display:inline-block; }
+
+    /* ── QUIZ (Teacher) ── */
+    .quiz-builder-card {
+      background:#fff; border-radius:var(--card-r);
+      box-shadow:0 4px 20px rgba(0,0,0,.07); padding:1.5rem;
+    }
+    .quiz-question-item {
+      background:#F8FAFC; border-radius:12px; padding:1rem 1.2rem;
+      margin-bottom:.75rem; border-left:4px solid var(--violet);
+    }
+    .quiz-option-row { display:flex; gap:.5rem; align-items:center; margin-bottom:.4rem; }
+    .quiz-option-row input[type=radio] { width:16px; height:16px; accent-color:var(--violet); cursor:pointer; }
+    .quiz-correct-label { color:var(--green); font-weight:700; font-size:.78rem; margin-left:.3rem; }
+
+    /* student quiz-play */
+    .quiz-play-card {
+      background:#fff; border-radius:var(--card-r); box-shadow:0 4px 20px rgba(0,0,0,.07);
+      padding:2rem; max-width:640px; margin:0 auto;
+    }
+    .quiz-q-display { font-size:1.1rem; font-weight:700; margin-bottom:1rem; color:var(--navy); }
+    .quiz-option-btn {
+      display:block; width:100%; text-align:left; padding:.75rem 1.1rem;
+      border-radius:10px; border:2px solid #E2E8F0; background:#fff;
+      font-family:'Nunito',sans-serif; font-weight:700; font-size:.95rem;
+      cursor:pointer; margin-bottom:.5rem; transition:all .2s; color:var(--navy);
+    }
+    .quiz-option-btn:hover { border-color:var(--violet); background:#F5F3FF; }
+    .quiz-option-btn.correct { background:#DCFCE7; border-color:var(--green); color:#15803D; }
+    .quiz-option-btn.wrong { background:#FEE2E2; border-color:var(--coral); color:#991B1B; }
+    .quiz-progress-bar { height:8px; background:#E2E8F0; border-radius:4px; overflow:hidden; margin-bottom:1.2rem; }
+    .quiz-progress-fill { height:100%; border-radius:4px; transition:width .4s ease; }
+    .quiz-score-badge {
+      display:inline-block; padding:.5rem 1.5rem; border-radius:50px;
+      font-family:'Fredoka One',cursive; font-size:1.6rem; margin-bottom:.5rem;
+    }
+
+    /* ── NOTEPAD ── */
+    .notepad-wrap {
+      background:#fff; border-radius:var(--card-r);
+      box-shadow:0 4px 20px rgba(0,0,0,.07); overflow:hidden;
+    }
+    .notepad-header {
+      display:flex; align-items:center; justify-content:space-between;
+      padding:1rem 1.4rem; border-bottom:2px solid #F1F5F9;
+    }
+    .notepad-textarea {
+      width:100%; min-height:260px; border:none; outline:none; resize:vertical;
+      font-family:'Nunito',sans-serif; font-size:.95rem; color:var(--navy);
+      padding:1.2rem 1.4rem; line-height:1.9;
+      background-image:repeating-linear-gradient(transparent, transparent 30px, #E8F0FE 30px, #E8F0FE 31px);
+      background-size:100% 31px;
+    }
+    .notepad-toolbar { display:flex; gap:.5rem; padding:.75rem 1.4rem; background:#F8FAFC; flex-wrap:wrap; align-items:center; border-top:1px solid #F1F5F9; }
+    .note-btn {
+      padding:.35rem .8rem; border-radius:8px; border:1.5px solid #E2E8F0;
+      background:#fff; font-family:'Nunito',sans-serif; font-weight:700; font-size:.8rem;
+      cursor:pointer; transition:all .18s; color:var(--navy);
+    }
+    .note-btn:hover { background:var(--navy); color:#fff; border-color:var(--navy); }
+    .note-btn.danger:hover { background:#EF4444; border-color:#EF4444; color:#fff; }
+    .note-saved { font-size:.78rem; color:var(--green); font-weight:700; display:none; }
+    .note-saved.show { display:inline; }
+
+    /* ── ASSIGNMENTS ── */
+    .assignment-card {
+      background:#fff; border-radius:var(--card-r); box-shadow:0 4px 20px rgba(0,0,0,.06);
+      overflow:hidden; margin-bottom:1.2rem; border-left:6px solid var(--teal); transition:transform .2s;
+    }
+    .assignment-card:hover { transform:translateX(4px); }
+    .assignment-card .card-header-custom {
+      background:#F8FAFC; padding:.8rem 1.2rem; border-bottom:1px solid #F1F5F9;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    .badge-due { font-size:.72rem; font-weight:700; padding:.3rem .75rem; border-radius:50px; }
+    .upload-form-card { background:#fff; border-radius:var(--card-r); box-shadow:0 4px 24px rgba(0,0,0,.07); padding:2rem; border-top:6px solid var(--teal); }
+    .file-drop-zone { border:2.5px dashed #CBD5E1; border-radius:12px; padding:2.5rem 1.5rem; text-align:center; background:#F8FAFC; cursor:pointer; transition:all .2s; }
+    .file-drop-zone:hover,.file-drop-zone.drag-over { border-color:var(--teal); background:#F0FEFB; }
+    .progress-wrap { display:none; }
+    .teacher-upload-card { background:linear-gradient(135deg,#EEF2FF,#F5F3FF); border:2px dashed var(--violet); border-radius:var(--card-r); padding:1.5rem; text-align:center; }
+
+    /* ── GRADES PAGE ── */
+    .grades-table-card { background:#fff; border-radius:var(--card-r); box-shadow:0 4px 24px rgba(0,0,0,.07); overflow:hidden; }
+    .grades-table thead th { background:var(--navy); color:#fff; font-family:'Fredoka One',cursive; font-size:1rem; font-weight:400; padding:1rem 1.2rem; border:none; }
+    .grades-table tbody tr { transition:background .15s; }
+    .grades-table tbody tr:hover { background:#F8FAFC; }
+    .grades-table tbody td { padding:.9rem 1.2rem; vertical-align:middle; border-color:#F1F5F9; }
+    .grade-pill { display:inline-block; font-weight:800; font-size:.85rem; padding:.25rem .75rem; border-radius:50px; min-width:48px; text-align:center; }
+    .grade-a{background:#DCFCE7;color:#15803D} .grade-b{background:#DBEAFE;color:#1D4ED8}
+    .grade-c{background:#FEF9C3;color:#854D0E} .grade-d{background:#FFE4E6;color:#BE123C}
+    .permission-table th{background:var(--violet);color:#fff;font-family:'Fredoka One',cursive;font-weight:400}
+    .permission-table td{vertical-align:middle}
+    .perm-yes{color:var(--green);font-weight:800} .perm-no{color:#94A3B8}
+
+    /* ── BUTTONS ── */
+    .btn-primary-custom { background:var(--violet);color:#fff;border:none;font-weight:700;border-radius:50px;padding:.55rem 1.4rem;font-family:'Nunito',sans-serif;transition:all .2s; }
+    .btn-primary-custom:hover { background:#6A4AE8;transform:translateY(-2px); }
+    .btn-teal { background:var(--teal);color:var(--navy);border:none;font-weight:700;border-radius:50px;padding:.55rem 1.4rem;font-family:'Nunito',sans-serif;transition:all .2s; }
+    .btn-teal:hover { background:#00B09E;transform:translateY(-2px); }
+    .btn-download { background:var(--navy);color:#fff;border:none;font-weight:700;font-size:.82rem;border-radius:50px;padding:.4rem 1rem;font-family:'Nunito',sans-serif;transition:all .2s;white-space:nowrap; }
+    .btn-download:hover { background:var(--violet);transform:translateY(-1px); }
+    .btn-danger-soft { background:#FEE2E2;color:#EF4444;border:none;font-weight:700;font-size:.82rem;border-radius:50px;padding:.4rem 1rem;font-family:'Nunito',sans-serif;transition:all .2s; }
+    .btn-danger-soft:hover { background:#FECACA; }
+
+    /* ── TOAST ── */
+    .toast-container { z-index:9999; }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar{width:8px} ::-webkit-scrollbar-track{background:#F1F5F9} ::-webkit-scrollbar-thumb{background:#CBD5E1;border-radius:4px}
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+    .fade-up{animation:fadeUp .4s ease both}
+    .fade-up-1{animation-delay:.05s} .fade-up-2{animation-delay:.12s}
+    .fade-up-3{animation-delay:.19s} .fade-up-4{animation-delay:.26s}
+
+    @media(max-width:576px) {
+      .hero h1{font-size:2rem} .nav-link-btn span{display:none}
+      .grade-tab{min-width:80px;padding:.7rem .9rem;font-size:.9rem}
+    }
+
+    
+    /* Sign In button special style */
+.nav-link-btn.sign-in-btn {
+  background: linear-gradient(135deg, #FFD600, #FFB347);
+  border: none;
+  color: #1E2A4A;
+  font-weight: 800;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.nav-link-btn.sign-in-btn:hover {
+  background: linear-gradient(135deg, #FFE45E, #FFC46B);
+  transform: translateY(-2px);
+  color: #1E2A4A;
+  box-shadow: 0 4px 12px rgba(255,214,0,0.5);
+}
+  </style>
+</head>
+<!-- Floating Chatbot Bubble -->
+<div id="professor-pi-bubble" onclick="toggleChatbot()" style="position: fixed; bottom: 30px; right: 30px; cursor: pointer; z-index: 2000;">
+    <div class="bg-primary p-3 rounded-circle shadow-lg d-flex align-items-center justify-content-center" style="width: 65px; height: 65px; border: 4px solid white;">
+        <span style="font-size: 2rem;">🤖</span>
+    </div>
+    <div class="bg-white text-dark small fw-bold px-2 py-1 rounded shadow-sm position-absolute" style="top: -20px; right: 0; white-space: nowrap;">
+        Ask Prof. Pi!
+    </div>
+</div>
+<script>
+  // 1. Toggle the window
+function toggleChatbot() {
+    const win = document.getElementById('chat-window');
+    win.classList.toggle('d-none');
+}
+
+// 2. The Main AI Logic
+function handleAI() {
+    const input = document.getElementById('ai-input');
+    const display = document.getElementById('chat-messages');
+    const typing = document.getElementById('typing-indicator');
+    const val = input.value.trim();
+
+    if (!val) return;
+
+    // Show User Message
+    display.innerHTML += `<div class="text-end mb-3"><span class="p-2 rounded-3 bg-primary text-white d-inline-block">${val}</span></div>`;
+    input.value = "";
+    display.scrollTop = display.scrollHeight;
+
+    // Show Typing
+    typing.classList.remove('d-none');
+
+    setTimeout(() => {
+        typing.classList.add('d-none');
+        let response = "I'm still learning! Try asking a math problem like '5 * 5'.";
+
+        // Logic A: Solve Math
+        const mathMatch = val.match(/(\d+)\s*([\+\-\*\/])\s*(\d+)/);
+        if (mathMatch) {
+            try {
+                const result = eval(mathMatch[0]); 
+                response = `Beep boop! **${mathMatch[0]} = ${result}**. Math is fun!`;
+            } catch(e) { response = "That math is a bit tricky for me!"; }
+        } 
+        // Logic B: Website Navigation[cite: 1]
+        else if (val.toLowerCase().includes("quiz")) {
+            response = "You can find the **Quiz** in the top menu or the Quiz tab!";
+        } else if (val.toLowerCase().includes("hello")) {
+            response = "Hello! Ready to solve some math today?";
+        }
+
+        display.innerHTML += `<div class="mb-3"><span class="p-2 rounded-3 bg-light d-inline-block shadow-sm">${response}</span></div>`;
+        display.scrollTop = display.scrollHeight;
+    }, 800);
+}
+
+// 3. Enable "Enter" key support
+document.addEventListener('DOMContentLoaded', () => {
+    const aiInput = document.getElementById('ai-input');
+    if(aiInput) {
+        aiInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") handleAI();
+        });
+    }
+});
+</script>
+<!-- Professor Pi Chat Window -->
+<div id="chat-window" class="shadow-lg d-none" style="position: fixed; bottom: 100px; right: 30px; width: 350px; background: white; border-radius: 24px; overflow: hidden; z-index: 2001; border: 2px solid var(--violet);">
+    <div class="p-3 text-white d-flex justify-content-between align-items-center" style="background: linear-gradient(135deg, var(--violet), var(--navy));">
+        <div class="d-flex align-items-center gap-2">
+            <span style="font-size: 1.5rem;">🤖</span>
+            <div class="fw-bold">Professor Pi AI</div>
+        </div>
+        <button onclick="toggleChatbot()" class="btn-close btn-close-white"></button>
+    </div>
+    
+    <div id="chat-messages" class="p-3" style="height: 300px; overflow-y: auto; background: #FFFBF0;">
+        <div class="mb-3"><span class="p-2 rounded-3 bg-light d-inline-block">Hi! I'm your Math AI. Ask me a problem like "10 + 5" or ask "Where is the Quiz?"</span></div>
+    </div>
+
+    <div id="typing-indicator" class="px-3 py-1 d-none"><small class="text-muted">Professor Pi is thinking...</small></div>
+
+    <div class="p-3 bg-white border-top">
+        <div class="input-group">
+            <input type="text" id="ai-input" class="form-control" placeholder="Type here...">
+            <button class="btn btn-primary" onclick="handleAI()">Send</button>
+        </div>
+    </div>
+</div><body>
+
+
+<!-- NAV -->
+<nav id="main-nav" class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+  <a href="#" class="brand" onclick="showPage('home')">
+    <span class="star">★</span> MathWorld
+  </a>
+  <div class="d-flex align-items-center gap-1 flex-wrap">
+    <button class="nav-link-btn" onclick="showPage('home')"><i class="bi bi-house-door-fill"></i> <span>Home</span></button>
+    <button class="nav-link-btn" onclick="showPage('grades-hub')"><i class="bi bi-book-fill"></i> <span>Grades Hub</span></button>
+    <button class="nav-link-btn" onclick="showPage('assignments')"><i class="bi bi-clipboard2-check-fill"></i> <span>Assignments</span></button>
+    <button class="nav-link-btn" onclick="showPage('grades')"><i class="bi bi-bar-chart-fill"></i> <span>Results</span></button>
+    <button class="nav-link-btn" onclick="showPage('quiz')"><i class="bi bi-patch-question-fill"></i> <span>Quiz</span></button>
+  </div>
+  <div id="role-toggle-wrap">
+    <i class="bi bi-person-fill" style="color:#94A3B8"></i>
+    <span>Student</span>
+    <div class="form-check form-switch mb-0">
+      <input class="form-check-input" type="checkbox" id="roleSwitch" onchange="toggleRole(this)">
+    </div>
+    <span>Teacher</span>
+    <span id="role-label" class="student">Student</span>
+  </div>
+  <a href="teacher sign in.html">
+  <button class="nav-link-btn sign-in-btn" onclick="alert('Sign In clicked!')"><i class="bi bi-box-arrow-in-right"></i> <span>Sign In</span></button>
+  </a>
+   <a href="contactus.html">
+  <button class="nav-link-btn" onclick="showPage('contact')">
+  <i class="bi bi-envelope-fill"></i> <span>Contact</span>
+</button>
+
+
+</a>
+<a href="about.html">
+<button class="nav-link-btn" onclick="showPage('about')"><i class="bi bi-info-circle-fill"></i> <span>About</span></button>
+</div>
+</a>
+</nav>
+
+<!-- Scroll Buttons -->
+<button id="scrollUpBtn" class="scroll-btn" onclick="scrollToTop()" title="Go to top">
+  <i class="bi bi-arrow-up"></i>
+</button>
+<button id="scrollDownBtn" class="scroll-btn" onclick="scrollToBottom()" title="Go to bottom">
+  <i class="bi bi-arrow-down"></i>
+</button>
+
+<!-- Toast -->
+<div class="toast-container position-fixed top-0 end-0 p-3">
+  <div id="liveToast" class="toast align-items-center text-bg-success border-0" role="alert">
+    <div class="d-flex">
+      <div class="toast-body fw-bold" id="toast-msg">Action completed!</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
+
+<!-- YouTube Modal -->
+<div class="yt-modal-overlay" id="ytModal" onclick="closeYtModal(event)">
+  <div class="yt-modal">
+    <button class="yt-modal-close" onclick="closeYtModal()"><i class="bi bi-x-lg"></i></button>
+    <iframe id="ytFrame" src="" allowfullscreen allow="autoplay"></iframe>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     PAGE: HOME
+════════════════════════════════════ -->
+<!-- PAGE: ADMIN DASHBOARD -->
+<section id="page-admin" class="page page-content">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar Menu -->
+      <div class="col-md-3 col-lg-2 bg-white shadow-sm vh-100 p-3 sticky-top">
+        <h4 class="brand text-dark mb-4" style="font-size: 1.2rem;">Admin Panel</h4>
+        <div class="d-grid gap-2">
+          <button class="btn btn-light text-start active" onclick="showAdminTab('stats')"><i class="bi bi-graph-up me-2"></i> Stats</button>
+          <button class="btn btn-light text-start" onclick="showAdminTab('users')"><i class="bi bi-people me-2"></i> Students</button>
+          <button class="btn btn-light text-start" onclick="showAdminTab('content')"><i class="bi bi-folder me-2"></i> Content</button>
+        </div>
+      </div>
+
+      <!-- Main Content Area -->
+      <div class="col-md-9 col-lg-10 p-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2 class="fw-bold">Dashboard Overview</h2>
+          <span class="badge bg-success p-2">System Online</span>
+        </div>
+
+        <!-- Tab 1: Stats -->
+        <div id="admin-stats" class="admin-tab">
+          <div class="row g-4">
+            <div class="col-md-4">
+              <div class="card bg-primary text-white p-3 border-0 shadow-sm">
+                <h6>Total Students</h6>
+                <h3>1,240</h3>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card bg-violet text-white p-3 border-0 shadow-sm">
+                <h6>Lessons Uploaded</h6>
+                <h3>85</h3>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card bg-teal text-white p-3 border-0 shadow-sm">
+                <h6>Avg. Quiz Score</h6>
+                <h3>82%</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: User Management -->
+        <div id="admin-users" class="admin-tab d-none">
+          <div class="grades-table-card table-responsive">
+            <table class="table grades-table">
+              <thead>
+                <tr>
+                  <th>Student Name</th>
+                  <th>Grade</th>
+                  <th>Last Active</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Alex Johnson</td>
+                  <td>Grade 4</td>
+                  <td>Today</td>
+                  <td><button class="btn btn-sm btn-outline-danger">Reset Pass</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="page-home" class="page active page-content">
+  <div class="hero">
+    <div class="hero-badge"><i class="bi bi-stars"></i> Learning Made Fun for Grades 1–5</div>
+    <h1>Welcome to<br><span>MathWorld Primary!</span></h1>
+    <p>Click your grade below to unlock lectures, YouTube videos, timetable, quizzes and your personal notepad.</p>
+    <button class="hero-btn" onclick="showPage('grades-hub')">🚀 Start Learning</button>
+  </div>
+
+  <div class="container py-5">
+    <div class="text-center mb-4">
+      <div class="section-title">Explore by Grade</div>
+      <p class="section-subtitle">Click a grade card to open all its resources instantly</p>
+    </div>
+    <div class="row g-4 justify-content-center">
+      <div class="col-sm-6 col-lg fade-up fade-up-1">
+        <div class="grade-card card h-100 text-center" onclick="openGrade(1)">
+          <div class="card-top" style="background:var(--g1)"></div>
+          <div class="icon-wrap" style="background:#FFE4E6;color:var(--g1)">➕</div>
+          <div class="card-body"><h5 style="color:var(--g1)">Grade 1</h5><p class="text-muted small mb-1">Addition</p><p class="text-muted small mb-0">Subtraction</p></div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg fade-up fade-up-2">
+        <div class="grade-card card h-100 text-center" onclick="openGrade(2)">
+          <div class="card-top" style="background:var(--g2)"></div>
+          <div class="icon-wrap" style="background:#FFEDD5;color:var(--g2)">🔢</div>
+          <div class="card-body"><h5 style="color:var(--g2)">Grade 2</h5><p class="text-muted small mb-1">Place Value</p><p class="text-muted small mb-0">Basic Shapes</p></div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg fade-up fade-up-3">
+        <div class="grade-card card h-100 text-center" onclick="openGrade(3)">
+          <div class="card-top" style="background:var(--g3)"></div>
+          <div class="icon-wrap" style="background:#FEF9C3;color:#B45309">✖️</div>
+          <div class="card-body"><h5 style="color:#B45309">Grade 3</h5><p class="text-muted small mb-1">Multiplication</p><p class="text-muted small mb-0">Division</p></div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg fade-up fade-up-4">
+        <div class="grade-card card h-100 text-center" onclick="openGrade(4)">
+          <div class="card-top" style="background:var(--g4)"></div>
+          <div class="icon-wrap" style="background:#DCFCE7;color:var(--g4)">📐</div>
+          <div class="card-body"><h5 style="color:var(--g4)">Grade 4</h5><p class="text-muted small mb-1">Geometry</p><p class="text-muted small mb-0">Word Problems</p></div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg fade-up" style="animation-delay:.33s">
+        <div class="grade-card card h-100 text-center" onclick="openGrade(5)">
+          <div class="card-top" style="background:var(--g5)"></div>
+          <div class="icon-wrap" style="background:#F5F3FF;color:var(--g5)">🧮</div>
+          <div class="card-body"><h5 style="color:var(--g5)">Grade 5</h5><p class="text-muted small mb-1">Fractions & Decimals</p><p class="text-muted small mb-0">Intro to Algebra</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-5 pt-3">
+      <div class="text-center mb-3"><div class="section-title" style="font-size:1.5rem">Who Can Do What?</div></div>
+      <div class="table-responsive">
+        <table class="table permission-table table-bordered rounded overflow-hidden">
+          <thead><tr><th>Feature</th><th><i class="bi bi-mortarboard-fill me-1"></i>Student</th><th><i class="bi bi-person-badge-fill me-1"></i>Teacher</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Grade Hub</strong></td><td><span class="perm-yes">✔ View PDFs, Videos, Timetable, Notepad</span></td><td><span class="perm-yes">✔ All + Upload Lectures</span></td></tr>
+            <tr><td><strong>Quiz</strong></td><td><span class="perm-yes">✔ Take Quiz</span></td><td><span class="perm-yes">✔ Build & Manage Quizzes</span></td></tr>
+            <tr><td><strong>Assignments</strong></td><td><span class="perm-yes">✔ Download / Submit</span></td><td><span class="perm-yes">✔ Post / Review</span></td></tr>
+            <tr><td><strong>Results</strong></td><td><span class="perm-yes">✔ Own Grades</span></td><td><span class="perm-yes">✔ All Students</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     PAGE: GRADES HUB (main interactive)
+════════════════════════════════════ -->
+<section id="page-grades-hub" class="page page-content">
+  <div class="sticky-section-bar">
+    <div class="container d-flex align-items-center justify-content-between flex-wrap gap-2">
+      <div>
+        <div class="section-title">📚 Grades Hub</div>
+        <p class="section-subtitle mb-0">Click a grade to open all resources</p>
+      </div>
+      <button class="btn-teal teacher-only d-none" onclick="showToast('Upload feature active in Teacher mode!','success')">
+        <i class="bi bi-cloud-arrow-up-fill me-1"></i> Upload Lecture
+      </button>
+    </div>
+  </div>
+
+  <div class="container py-4">
+    <!-- Grade selector tabs -->
+    <div class="grade-selector-tabs" id="gradeTabs">
+      <div class="grade-tab" id="gtab-1" onclick="selectGrade(1)" style="color:var(--g1)">
+        <span class="tab-emoji">➕</span>
+        <span>Grade 1</span>
+        <span class="tab-topics">Addition · Subtraction</span>
+      </div>
+      <div class="grade-tab" id="gtab-2" onclick="selectGrade(2)" style="color:var(--g2)">
+        <span class="tab-emoji">🔢</span>
+        <span>Grade 2</span>
+        <span class="tab-topics">Place Value · Shapes</span>
+      </div>
+      <div class="grade-tab" id="gtab-3" onclick="selectGrade(3)" style="color:var(--g3)">
+        <span class="tab-emoji">✖️</span>
+        <span>Grade 3</span>
+        <span class="tab-topics">Multiply · Divide</span>
+      </div>
+      <div class="grade-tab" id="gtab-4" onclick="selectGrade(4)" style="color:var(--g4)">
+        <span class="tab-emoji">📐</span>
+        <span>Grade 4</span>
+        <span class="tab-topics">Geometry · Word Problems</span>
+      </div>
+      <div class="grade-tab" id="gtab-5" onclick="selectGrade(5)" style="color:var(--g5)">
+        <span class="tab-emoji">🧮</span>
+        <span>Grade 5</span>
+        <span class="tab-topics">Fractions · Algebra</span>
+      </div>
+    </div>
+
+    <!-- No grade selected placeholder -->
+    <div id="no-grade-msg" class="text-center py-5">
+      <div style="font-size:4rem">👆</div>
+      <h3 style="font-family:'Fredoka One',cursive;color:var(--navy)">Pick Your Grade!</h3>
+      <p class="text-muted">Click any grade tab above to unlock all resources for that grade.</p>
+    </div>
+
+    <!-- ── GRADE 1 PANEL ── -->
+    <div class="grade-panel" id="panel-1">
+      <div class="panel-top-bar" style="background:linear-gradient(135deg,#FF6B6B,#FF9A9A)">
+        <div style="font-size:2.5rem">➕</div>
+        <div><h2>Grade 1</h2><p>Addition &amp; Subtraction · All resources in one place</p></div>
+      </div>
+      <div class="sub-tabs" id="subtabs-1">
+        <button class="sub-tab active" onclick="showSubTab(1,'pdfs')" id="st1-pdfs" style="--c:var(--g1)">📄 Lecture PDFs</button>
+        <button class="sub-tab" onclick="showSubTab(1,'videos')" id="st1-videos">▶️ YouTube Videos</button>
+        <button class="sub-tab" onclick="showSubTab(1,'timetable')" id="st1-timetable">🗓 Timetable</button>
+        <button class="sub-tab" onclick="showSubTab(1,'notepad')" id="st1-notepad">📝 My Notepad</button>
+      </div>
+      <div id="s1-pdfs">
+        <div class="teacher-upload-card mb-3 teacher-only d-none">
+          <i class="bi bi-cloud-arrow-up-fill fs-2" style="color:var(--violet)"></i>
+          <h6 class="mt-2 mb-0" style="font-family:'Fredoka One',cursive">Upload Grade 1 PDF</h6>
+          <p class="text-muted small mb-2">Files will appear in the list below.</p>
+          <div class="d-flex gap-2 justify-content-center flex-wrap">
+            <input type="text" class="form-control form-control-sm" style="max-width:220px" placeholder="Lecture title…" id="ul1-title">
+            <input type="file" class="form-control form-control-sm" style="max-width:200px" accept=".pdf" id="ul1-file">
+            <button class="btn-primary-custom" style="font-size:.82rem;padding:.42rem .9rem" onclick="uploadLecture(1)"><i class="bi bi-upload me-1"></i>Upload</button>
+          </div>
+        </div>
+        <div id="g1-pdf-list">
+          <div class="pdf-item"><div class="pdf-icon"><i class="bi bi-file-earmark-pdf-fill"></i></div><div class="pdf-meta"><strong>Introduction to Addition</strong><span>PDF · 1.2 MB · May 2025</span></div><div class="d-flex gap-2 flex-wrap"><button class="btn-download" onclick="simDownload('Introduction to Addition.pdf')"><i class="bi bi-download me-1"></i>Download</button><button class="btn-danger-soft teacher-only d-none"><i class="bi bi-trash3"></i></button></div></div>
+          <div class="pdf-item"><div class="pdf-icon"><i class="bi bi-file-earmark-pdf-fill"></i></div><div class="pdf-meta"><strong>Subtraction Basics</strong><span>PDF · 0.9 MB · May 2025</span></div><div class="d-flex gap-2 flex-wrap"><button class="btn-download" onclick="simDownload('Subtraction Basics.pdf')"><i class="bi bi-download me-1"></i>Download</button><button class="btn-danger-soft teacher-only d-none"><i class="bi bi-trash3"></i></button></div></div>
+          <div class="pdf-item"><div class="pdf-icon"><i class="bi bi-file-earmark-pdf-fill"></i></div><div class="pdf-meta"><strong>Number Lines &amp; Counting</strong><span>PDF · 0.7 MB · Jun 2025</span></div><div class="d-flex gap-2 flex-wrap"><button class="btn-download" onclick="simDownload('Number Lines.pdf')"><i class="bi bi-download me-1"></i>Download</button><button class="btn-danger-soft teacher-only d-none"><i class="bi bi-trash3"></i></button></div></div>
+        </div>
+      </div>
+      <div id="s1-videos" class="d-none">
+        <div class="yt-grid">
+          <div class="yt-card" onclick="openYt('FjnAnd86fE8','Adding Numbers for Kids')"><div class="yt-thumb"><img src="https://img.youtube.com/vi/FjnAnd86fE8/mqdefault.jpg" alt=""><div class="play-btn"><i class="bi bi-play-fill"></i></div><span class="yt-duration">7:23</span></div><div class="yt-info"><strong>Adding Numbers for Kids</strong><span>Grade 1 · Khan Academy</span></div></div>
+          <div class="yt-card" onclick="openYt('gkrHDi8bvSE','Subtraction for Beginners')"><div class="yt-thumb"><img src="https://img.youtube.com/vi/gkrHDi8bvSE/mqdefault.jpg" alt=""><div class="play-btn"><i class="bi bi-play-fill"></i></div><span class="yt-duration">5:14</span></div><div class="yt-info"><strong>Subtraction for Beginners</strong><span>Grade 1 · Math Antics</span></div></div>
+          <div class="yt-card" onclick="openYt('CqQX0RFVNUA','Counting on a Number Line')"><div class="yt-thumb"><img src="https://img.youtube.com/vi/CqQX0RFVNUA/mqdefault.jpg" alt=""><div class="play-btn"><i class="bi bi-play-fill"></i></div><span class="yt-duration">4:45</span></div><div class="yt-info"><strong>Counting on a Number Line</strong><span>Grade 1 · Turtle Diary</span></div></div>
+          <div class="yt-card" onclick="openYt('lMNepGMqHiQ','Addition Word Problems')"><div class="yt-thumb"><img src="https://img.youtube.com/vi/lMNepGMqHiQ/mqdefault.jpg" alt=""><div class="play-btn"><i class="bi bi-play-fill"></i></div><span class="yt-duration">6:01</span></div><div class="yt-info"><strong>Addition Word Problems</strong><span>Grade 1 · Math with Mr. J</span></div></div>
+        </div>
+      </div>
+      <div id="s1-timetable" class="d-none">
+        <div id="tt-container-1"></div>
+      </div>
+      <div id="s1-notepad" class="d-none">
+        <div id="np-container-1"></div>
+      </div>
+    </div>
+
+    <!-- ── GRADE 2 PANEL ── -->
+    <div class="grade-panel" id="panel-2">
+      <div class="panel-top-bar" style="background:linear-gradient(135deg,#FB923C,#FFC09A)">
+        <div style="font-size:2.5rem">🔢</div>
+        <div><h2>Grade 2</h2><p>Place Value &amp; Basic Shapes · All resources in one place</p></div>
+      </div>
+      <div class="sub-tabs" id="subtabs-2">
+        <button class="sub-tab active" onclick="showSubTab(2,'pdfs')" id="st2-pdfs">📄 Lecture PDFs</button>
+        <button class="sub-tab" onclick="showSubTab(2,'videos')" id="st2-videos">▶️ YouTube Videos</button>
+        <button class="sub-tab" onclick="showSubTab(2,'timetable')" id="st2-timetable">🗓 Timetable</button>
+        <button class="sub-tab" onclick="showSubTab(2,'notepad')" id="st2-notepad">📝 My Notepad</button>
+      </div>
+      <div id="s2-pdfs">
+        <div class="teacher-upload-card mb-3 teacher-only d-none"><i class="bi bi-cloud-arrow-up-fill fs-2" style="color:var(--violet)"></i><h6 class="mt-2 mb-0" style="font-family:'Fredoka One',cursive">Upload Grade 2 PDF</h6><p class="text-muted small mb-2">Files will appear below.</p><div class="d-flex gap-2 justify-content-center flex-wrap"><input type="text" class="form-control form-control-sm" style="max-width:220px" placeholder="Lecture title…" id="ul2-title"><input type="file" class="form-control form-control-sm" style="max-width:200px" accept=".pdf" id="ul2-file"><button class="btn-primary-custom" style="font-size:.82rem;padding:.42rem .9rem" onclick="uploadLecture(2)"><i class="bi bi-upload me-1"></i>Upload</button></div></div>
+        <div id="g2-pdf-list">
+          <div class="pdf-item"><div class="pdf-icon"><i class="bi bi-file-earmark-pdf-fill"></i></div><div class="pdf-meta"><strong>Understanding Place Value</strong><span>PDF · 1.1 MB · May 2025</span></div><div class="d-flex gap-2 flex-wrap"><button class="btn-download" onclick="simDownload('Place Value.pdf')"><i class="bi bi-download me-1"></i>Download</button><button class="btn-danger-soft teacher-only d-none"><i class="bi bi-trash3"></i></button></div></div>
+          <div class="pdf-item"><div class="pdf-icon"><i class="bi bi-file-earmark-pdf-fill"></i></div><div class="pdf-meta"><strong>Tens and Hundreds</strong><span>PDF · 0.8 MB · May 2025</span></div><div class="d-flex gap-2 flex-wrap"><button class="btn-download" onclick="simDownload('Tens Hundreds.pdf')"><i class="bi bi-download me-1"></i>Download</button><button class="btn-danger-soft teacher-only d-none"><i class="bi bi-trash3"></i></button></div></div>
+          <div class="pdf-item"><div class="pdf-icon"><i class="bi bi-file-earmark-pdf-fill"></i></div><div class="pdf-meta"><strong>Intro to 2D Shapes</strong><span>PDF · 1.4 MB · Jun 2025</span></div><div class="d-flex gap-2 flex-wrap"><button class="btn-download" onclick="simDownload('2D Shapes.pdf')"><i class="bi bi-download me-1"></i>Download</button><button class="btn-danger-soft teacher-only d-none"><i class="bi bi-trash3"></i></button></div></div>
+        </div>
+      </div>
+      <div id="s2-videos" class="d-none">
+        <div class="yt-grid">
+          <div class="yt-card" onclick="openYt('kvCRzqovkKg','Place Value for Kids')"><div class="yt-thumb"><img src="https://img.youtube.com/vi/kvCRzqovkKg/mqdefault.jpg" alt=""><div class="play-btn"><i class="bi bi-play-fill"></i></div><span class="yt-duration">8:12</span></div><div class="yt-info"><strong>Place Value for Kids</strong><span>Grade 2 · Khan Academy</span></div></div>
+          <div class="yt-card" onclick="openYt('gd3VfMp93dA','Tens and Ones')"><div class="yt-thumb"><img src="https://img.youtube.com/vi/gd3VfMp93dA/mqdefault.jpg" alt=""><div class="play-btn"><i class="bi bi-play-fill"></i></div><span class="yt-duration">5:30</span></div><div class="yt-info"><strong>Tens and Ones Explained</strong><span>Grade 2 · Math Antics</span></div></div>
+          <div class="yt-card" onclick="openYt('ZKSjuBMuvbA','2D Shapes for Kids')"><div class="yt-thumb"><img src="https://img.youtube.com/vi/ZKSjuBMuvbA/mqdefault.jpg" alt=""><div class="play-btn"><i class="bi bi-play-fill"></i></div><span class="yt-duration">6:48</span></div><div class="yt-info"><strong>2D Shapes for Kids</strong><span>Grade 2 · Turtle Diary</span></div></div>
+        </div>
+      </div>
+      <div id="s2-timetable" class="d-none"><div id="tt-container-2"></div></div>
+      <div id="s2-notepad" class="d-none"><div id="np-container-2"></div></div>
+    </div>
+
+    <!-- ── GRADE 3 PANEL ── -->
+    <div class="grade-panel" id="panel-3">
+      <div class="panel-top-bar" style="background:linear-gradient(135deg,#D4AC00,#F0C800)">
+        <div style="font-size:2.5rem">✖️</div>
+        <div><h2>Grade 3</h2><p>Multiplication &amp; Division · All resources in one place</p></div>
+      </div>
+      <div class="sub-tabs" id="subtabs-3">
+        <button class="sub-tab active" onclick="showSubTab(3,'pdfs')" id="st3-pdfs">📄 Lecture PDFs</button>
+        <button class="sub-tab" onclick="showSubTab(3,'videos')" id="st3-videos">▶️ YouTube Videos</button>
+        <button class="sub-tab" onclick="showSubTab(3,'timetable')" id="st3-timetable">🗓 Timetable</button>
+        <button class="sub-tab" onclick="showSubTab(3,'notepad')" id="st3-notepad">📝 My Notepad</button>
+      </div>
+      <div id="s3-pdfs">
+        <div class="teacher-upload-card mb-3 teacher-only d-none"><i class="bi bi-cloud-arrow-up-fill fs-2" style="color:var(--violet)"></i><h6 class="mt-2 mb-0" style="font-family:'Fredoka One',cursive">Upload Grade 3 PDF</h6><p class="text-muted small mb-2">Files will appear below.</p><div class="d-flex gap-2 justify-content-center flex-wrap"><input type="text" class="form-control form-control-sm" style="max-width:220px" placeholder="Lecture title…" id="ul3-title"><input type="file" class="form-control form-control-sm" style="max-width:200px" accept=".pdf" id="ul3-file"><button class="btn-primary-custom" style="font-size:.82rem;padding:.42rem .9rem" onclick="uploadLecture(3)"><i class="bi bi-upload me-1"></i>Upload</button></div></div>
+        <div id="g3-pdf-list">
+          <div class="pdf-item"><div class="pdf-icon"><i class="bi bi-file-earmark-pdf-fill"></i></div><div class="pdf-meta"><strong>Times Tables 1–10</strong><span>PDF · 2.0 MB · May 2025</span></div><div class="d-flex gap-2 flex-wrap"><button class="btn-download" onclick="simDownload('Times Tables.pdf')"><i class="bi bi-download me-1"></i>Download</button><button class="btn-danger-soft teacher-only d-none"><i class="bi bi-trash3"></i></button></div></div>
+          <div class="pdf-item"><div class="pdf-icon"><i class="bi bi-file-earmark-pdf-fill"></i></div><div class="pdf-meta"><strong>Division as Equal Sharing</strong><span>PDF · 1.3 MB · Jun 2025</span></div><div class="d-flex gap-2 flex-wrap"><button class="btn-download" onclick="simDownload('Division Sharing.pdf')"><i class="bi bi-download me-1"></i>Download</button><button class="btn-danger-soft teacher-only d-none"><i class="bi bi-trash3"></i></button></div></div>
+        </div>
+      </div>
+      <div id="s3-videos" class="d-none">
+        <div class="yt-grid">
+          <div class="yt-card" onclick="openYt('mMmD4B0f5og','Multiplication for Kids')"><div class="yt-thumb"><img src="https://img.youtube.com/vi/mMmD4B0f5og/mqdefault.jpg" alt=""><div class="play-btn"><i class="bi bi-play-fill"></i></div><span class="yt-duration">9:15</span></div><div class="yt-info"><strong>Multiplication for Kids</strong><span>Grade 3 · Math Antics</span></div></div>
+          <div class="yt-card" onclick="openYt('KzHxVhB3HfA','Times Tables Song')"><div class="yt-thumb"><img src="https://img.youtube.com/vi/KzHxVhB3HfA/mqdefault.jpg" alt=""><div class="play-btn"><i class="bi bi-play-fill"></i></div><span class="yt-duration">4:30</span></div><div class="yt-info"><strong>Times Tables Song</strong><span>Grade 3 · Numberblocks</span></div></div>
+          <div class="yt-card" onclick="openYt('vGH8m7FLGQE','Division Basics')"><div class="yt-thumb"><img src="https://img.youtube.com/vi/vGH8m7FLGQE/mqdefault.jpg" alt=""><div class="play-btn"><i class="bi bi-play-fill"></i></div><span class="yt-duration">7:02</span></div><div class="yt-info"><strong>Division Basics Explained</strong><span>Grade 3 · Khan Academy</span></div></div>
+        </div>
+      </div>
+      <div id="s3-timetable" class="d-none"><div id="tt-container-3"></div></div>
+      <div id="s3-notepad" class="d-none"><div id="np-container-3"></div></div>
+    </div>
+
+    <!-- ── GRADE 4 PANEL ── -->
+    <div class="grade-panel" id="panel-4">
+      <div class="panel-top-bar" style="background:linear-gradient(135deg,#22C55E,#4ADE80)">
+        <div style="font-size:2.5rem">📐</div>
+        <div><h2>Grade 4</h2><p>Geometry &amp; Word Problems · All resources in one place</p></div>
+      </div>
+      <div class="sub-tabs" id="subtabs-4">
+        <button class="sub-tab active" onclick="showSubTab(4,'pdfs')" id="st4-pdfs">📄 Lecture PDFs</button>
+        <button class="sub-tab" onclick="showSubTab(4,'videos')" id="st4-videos">▶️ YouTube Videos</button>
+        <button class="sub-tab" onclick="showSubTab(4,'timetable')" id="st4-timetable">🗓 Timetable</button>
+        <button class="sub-tab" onclick="showSubTab(4,'notepad')" id="st4-notepad">📝 My Notepad</button>
+      </div>
+      <div id="s4-pdfs">
+        <div class="teacher-upload-card mb-3 teacher-only d-none"><i class="bi bi-cloud-arrow-up-fill fs-2" style="color:var(--violet)"></i><h6 class="mt-2 mb-0" style="font-family:'Fredoka One',cursive">Upload Grade 4 PDF</h6><p class="text-muted small mb-2">Files will appear below.</p><div class="d-flex gap-2 justify-content-center flex-wrap"><input type="text" class="form-control form-control-sm" style="max-width:220px" placeholder="Lecture title…" id="ul4-title"><input type="file" class="form-control form-control-sm" style="max-width:200px" accept=".pdf" id="ul4-file"><button class="btn-primary-custom" style="font-size:.82rem;padding:.42rem .9rem" onclick="uploadLecture(4)"><i class="bi bi-upload me-1"></i>Upload</button></div></div>
+        <div id="g4-pdf-list">
+          <div class="pdf-item"><div class="pdf-icon"><i class="bi bi-file-earmark-pdf-fill"></i></div><div class="pdf-meta"><strong>Angles &amp; Triangles</strong><span>PDF · 1.7 MB · May 2025</span></div><div class="d-flex gap-2 flex-wrap"><button class="btn-download" onclick="simDownload('Angles Triangles.pdf')"><i class="bi bi-download me-1"></i>Download</button><button class="btn-danger-soft teacher-only d-none"><i class="bi bi-trash3"></i></button></div></div>
+          <div class="pdf-item"><div class="pdf-icon"><i class="bi bi-file-earmark-pdf-fill"></i></div><div class="pdf-meta"><strong>Multi-step Word Problems</strong><span>PDF · 1.0 MB · Jun 2025</span></div><div class="d-flex gap-2 flex-wrap"><button class="btn-download" onclick="simDownload('Word Problems.pdf')"><i class="bi bi-download me-1"></i>Download</button><button class="btn-danger-soft teacher-only d-none"><i class="bi bi-trash3"></i></button></div></div>
+        </div>
+      </div>
+      <div id="s4-videos" class="d-none">
+        <div class="yt-grid">
+          <div class="yt-card" onclick="openYt('nnMaCFGFUrU','Geometry Basics for Kids')"><div class="yt-thumb"><img src="https://img.youtube.com/vi/nnMaCFGFUrU/mqdefault.jpg" alt=""><div class="play-btn"><i class="bi bi-play-fill"></i></div><span class="yt-duration">10:05</span></div><div class="yt-info"><strong>Geometry Basics for Kids</strong><span>Grade 4 · Math Antics</span></div></div>
+          <div class="yt-card" onclick="openYt('VYHi1OXq97I','Understanding Angles')"><div class="yt-thumb"><img src="https://img.youtube.com/vi/VYHi1OXq97I/mqdefault.jpg" alt=""><div class="play-btn"><i class="bi bi-play-fill"></i></div><span class="yt-duration">6:40</span></div><div class="yt-info"><strong>Understanding Angles</strong><span>Grade 4 · Khan Academy</span></div></div>
+          <div class="yt-card" onclick="openYt('dTLHoFHqWh0','Word Problems Strategy')"><div class="yt-thumb"><img src="https://img.youtube.com/vi/dTLHoFHqWh0/mqdefault.jpg" alt=""><div class="play-btn"><i class="bi bi-play-fill"></i></div><span class="yt-duration">8:20</span></div><div class="yt-info"><strong>Word Problems Strategy</strong><span>Grade 4 · Math with Mr. J</span></div></div>
+        </div>
+      </div>
+      <div id="s4-timetable" class="d-none"><div id="tt-container-4"></div></div>
+      <div id="s4-notepad" class="d-none"><div id="np-container-4"></div></div>
+    </div>
+
+    <!-- ── GRADE 5 PANEL ── -->
+    <div class="grade-panel" id="panel-5">
+      <div class="panel-top-bar" style="background:linear-gradient(135deg,#7C5CFC,#A78BFA)">
+        <div style="font-size:2.5rem">🧮</div>
+        <div><h2>Grade 5</h2><p>Fractions, Decimals &amp; Intro to Algebra · All resources</p></div>
+      </div>
+      <div class="sub-tabs" id="subtabs-5">
+        <button class="sub-tab active" onclick="showSubTab(5,'pdfs')" id="st5-pdfs">📄 Lecture PDFs</button>
+        <button class="sub-tab" onclick="showSubTab(5,'videos')" id="st5-videos">▶️ YouTube Videos</button>
+        <button class="sub-tab" onclick="showSubTab(5,'timetable')" id="st5-timetable">🗓 Timetable</button>
+        <button class="sub-tab" onclick="showSubTab(5,'notepad')" id="st5-notepad">📝 My Notepad</button>
+      </div>
+      <div id="s5-pdfs">
+        <div class="teacher-upload-card mb-3 teacher-only d-none"><i class="bi bi-cloud-arrow-up-fill fs-2" style="color:var(--violet)"></i><h6 class="mt-2 mb-0" style="font-family:'Fredoka One',cursive">Upload Grade 5 PDF</h6><p class="text-muted small mb-2">Files will appear below.</p><div class="d-flex gap-2 justify-content-center flex-wrap"><input type="text" class="form-control form-control-sm" style="max-width:220px" placeholder="Lecture title…" id="ul5-title"><input type="file" class="form-control form-control-sm" style="max-width:200px" accept=".pdf" id="ul5-file"><button class="btn-primary-custom" style="font-size:.82rem;padding:.42rem .9rem" onclick="uploadLecture(5)"><i class="bi bi-upload me-1"></i>Upload</button></div></div>
+        <div id="g5-pdf-list">
+          <div class="pdf-item"><div class="pdf-icon"><i class="bi bi-file-earmark-pdf-fill"></i></div><div class="pdf-meta"><strong>Adding &amp; Subtracting Fractions</strong><span>PDF · 1.5 MB · May 2025</span></div><div class="d-flex gap-2 flex-wrap"><button class="btn-download" onclick="simDownload('Fractions.pdf')"><i class="bi bi-download me-1"></i>Download</button><button class="btn-danger-soft teacher-only d-none"><i class="bi bi-trash3"></i></button></div></div>
+          <div class="pdf-item"><div class="pdf-icon"><i class="bi bi-file-earmark-pdf-fill"></i></div><div class="pdf-meta"><strong>Understanding Decimals</strong><span>PDF · 1.1 MB · May 2025</span></div><div class="d-flex gap-2 flex-wrap"><button class="btn-download" onclick="simDownload('Decimals.pdf')"><i class="bi bi-download me-1"></i>Download</button><button class="btn-danger-soft teacher-only d-none"><i class="bi bi-trash3"></i></button></div></div>
+          <div class="pdf-item"><div class="pdf-icon"><i class="bi bi-file-earmark-pdf-fill"></i></div><div class="pdf-meta"><strong>Intro to Algebra: Variables</strong><span>PDF · 0.8 MB · Jun 2025</span></div><div class="d-flex gap-2 flex-wrap"><button class="btn-download" onclick="simDownload('Algebra Intro.pdf')"><i class="bi bi-download me-1"></i>Download</button><button class="btn-danger-soft teacher-only d-none"><i class="bi bi-trash3"></i></button></div></div>
+        </div>
+      </div>
+      <div id="s5-videos" class="d-none">
+        <div class="yt-grid">
+          <div class="yt-card" onclick="openYt('n0-JAvsh6IM','Fractions for Kids')"><div class="yt-thumb"><img src="https://img.youtube.com/vi/n0-JAvsh6IM/mqdefault.jpg" alt=""><div class="play-btn"><i class="bi bi-play-fill"></i></div><span class="yt-duration">11:22</span></div><div class="yt-info"><strong>Fractions for Kids</strong><span>Grade 5 · Math Antics</span></div></div>
+          <div class="yt-card" onclick="openYt('vTkdRElgBVg','Decimals Explained')"><div class="yt-thumb"><img src="https://img.youtube.com/vi/vTkdRElgBVg/mqdefault.jpg" alt=""><div class="play-btn"><i class="bi bi-play-fill"></i></div><span class="yt-duration">8:55</span></div><div class="yt-info"><strong>Decimals Explained</strong><span>Grade 5 · Khan Academy</span></div></div>
+          <div class="yt-card" onclick="openYt('NybHckSEQBI','Intro to Algebra')"><div class="yt-thumb"><img src="https://img.youtube.com/vi/NybHckSEQBI/mqdefault.jpg" alt=""><div class="play-btn"><i class="bi bi-play-fill"></i></div><span class="yt-duration">9:45</span></div><div class="yt-info"><strong>Intro to Algebra</strong><span>Grade 5 · Math Antics</span></div></div>
+          <div class="yt-card" onclick="openYt('m_CaIBJ0p-E','Adding Fractions')"><div class="yt-thumb"><img src="https://img.youtube.com/vi/m_CaIBJ0p-E/mqdefault.jpg" alt=""><div class="play-btn"><i class="bi bi-play-fill"></i></div><span class="yt-duration">7:18</span></div><div class="yt-info"><strong>Adding Fractions Step by Step</strong><span>Grade 5 · Math with Mr. J</span></div></div>
+        </div>
+      </div>
+      <div id="s5-timetable" class="d-none"><div id="tt-container-5"></div></div>
+      <div id="s5-notepad" class="d-none"><div id="np-container-5"></div></div>
+    </div>
+
+  </div><!-- /container -->
+</section>
+
+<!-- ════════════════════════════════════
+     PAGE: ASSIGNMENTS
+════════════════════════════════════ -->
+<section id="page-assignments" class="page page-content">
+  <div class="sticky-section-bar">
+    <div class="container d-flex align-items-center justify-content-between flex-wrap gap-2">
+      <div><div class="section-title">📋 Assignments</div><p class="section-subtitle mb-0">View active assignments &amp; submit your work</p></div>
+      <span class="badge" id="assign-role-badge" style="background:var(--sky);color:var(--navy);font-size:.85rem;padding:.4rem .9rem;border-radius:50px;">🎒 Student View</span>
+    </div>
+  </div>
+  <div class="container py-4">
+    <div class="row g-4">
+      <div class="col-lg-7">
+        <h5 style="font-family:'Fredoka One',cursive;color:var(--navy)" class="mb-3">Active Assignments</h5>
+        <div class="assignment-card" style="border-left-color:var(--g1)"><div class="card-header-custom"><div><strong>Grade 1 · Addition Practice Sheet</strong><div class="text-muted" style="font-size:.8rem">Posted by Ms. Rivera · May 28, 2025</div></div><span class="badge-due" style="background:#FFE4E6;color:#BE123C">Due Jun 5</span></div><div class="p-3 d-flex align-items-center justify-content-between flex-wrap gap-2"><p class="text-muted small mb-0"><i class="bi bi-file-earmark-pdf text-danger me-1"></i>grade1_addition_sheet.pdf</p><div class="d-flex gap-2"><button class="btn-download" onclick="simDownload('grade1_addition.pdf')"><i class="bi bi-download me-1"></i>Get PDF</button><label class="btn-teal student-only" style="font-size:.82rem;padding:.4rem 1rem;cursor:pointer">📤 Submit<input type="file" class="d-none" accept=".pdf" onchange="handleStudentSubmit(event,'Addition Practice Sheet')"></label><button class="btn-primary-custom teacher-only d-none" style="font-size:.82rem;padding:.4rem 1rem"><i class="bi bi-eye me-1"></i>Submissions</button></div></div></div>
+        <div class="assignment-card" style="border-left-color:var(--g3)"><div class="card-header-custom"><div><strong>Grade 3 · Multiplication Quiz Prep</strong><div class="text-muted" style="font-size:.8rem">Posted by Ms. Rivera · Jun 1, 2025</div></div><span class="badge-due" style="background:#FEF9C3;color:#854D0E">Due Jun 10</span></div><div class="p-3 d-flex align-items-center justify-content-between flex-wrap gap-2"><p class="text-muted small mb-0"><i class="bi bi-file-earmark-pdf text-danger me-1"></i>grade3_multiplication_prep.pdf</p><div class="d-flex gap-2"><button class="btn-download" onclick="simDownload('grade3_multiplication.pdf')"><i class="bi bi-download me-1"></i>Get PDF</button><label class="btn-teal student-only" style="font-size:.82rem;padding:.4rem 1rem;cursor:pointer">📤 Submit<input type="file" class="d-none" accept=".pdf" onchange="handleStudentSubmit(event,'Multiplication Quiz Prep')"></label><button class="btn-primary-custom teacher-only d-none" style="font-size:.82rem;padding:.4rem 1rem"><i class="bi bi-eye me-1"></i>Submissions</button></div></div></div>
+        <div class="assignment-card" style="border-left-color:var(--g5)"><div class="card-header-custom"><div><strong>Grade 5 · Fractions Worksheet</strong><div class="text-muted" style="font-size:.8rem">Posted by Ms. Rivera · Jun 3, 2025</div></div><span class="badge-due" style="background:#F5F3FF;color:#6D28D9">Due Jun 12</span></div><div class="p-3 d-flex align-items-center justify-content-between flex-wrap gap-2"><p class="text-muted small mb-0"><i class="bi bi-file-earmark-pdf text-danger me-1"></i>grade5_fractions.pdf</p><div class="d-flex gap-2"><button class="btn-download" onclick="simDownload('grade5_fractions.pdf')"><i class="bi bi-download me-1"></i>Get PDF</button><label class="btn-teal student-only" style="font-size:.82rem;padding:.4rem 1rem;cursor:pointer">📤 Submit<input type="file" class="d-none" accept=".pdf" onchange="handleStudentSubmit(event,'Fractions Worksheet')"></label><button class="btn-primary-custom teacher-only d-none" style="font-size:.82rem;padding:.4rem 1rem"><i class="bi bi-eye me-1"></i>Submissions</button></div></div></div>
+      </div>
+      <div class="col-lg-5">
+        <div class="upload-form-card teacher-only d-none" id="teacher-upload-panel">
+          <h5 style="font-family:'Fredoka One',cursive;color:var(--navy)" class="mb-3">📤 Post New Assignment</h5>
+          <form id="assignment-upload-form" onsubmit="handleUpload(event,'assignment')">
+            <div class="mb-3"><label class="form-label fw-bold small">Assignment Title</label><input type="text" class="form-control" id="asgn-title" placeholder="e.g. Subtraction Practice" required></div>
+            <div class="row g-2 mb-3"><div class="col-6"><label class="form-label fw-bold small">Grade Level</label><select class="form-select" id="asgn-grade" required><option value="">Select…</option><option>Grade 1</option><option>Grade 2</option><option>Grade 3</option><option>Grade 4</option><option>Grade 5</option></select></div><div class="col-6"><label class="form-label fw-bold small">Due Date</label><input type="date" class="form-control" id="asgn-due" required></div></div>
+            <div class="file-drop-zone mb-3" id="dropZone" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)"><div style="font-size:2.8rem;color:#94A3B8">📄</div><p class="fw-bold mb-1" style="color:var(--navy)">Drag &amp; drop PDF here</p><p class="text-muted small mb-2">or click to browse</p><input type="file" id="pdfUpload" accept=".pdf" class="d-none" onchange="onFileSelected(event)" required><button type="button" class="btn-download" onclick="document.getElementById('pdfUpload').click()">Choose PDF</button></div>
+            <div id="file-info" class="d-none mb-3 p-2 rounded-2" style="background:#F0FEFB;border:1px solid var(--teal)"><div class="d-flex align-items-center gap-2"><i class="bi bi-file-earmark-pdf-fill text-danger fs-5"></i><div><strong id="file-name" class="d-block small"></strong><span id="file-size" class="text-muted" style="font-size:.75rem"></span></div><button type="button" class="btn-close ms-auto" style="font-size:.7rem" onclick="clearFile()"></button></div></div>
+            <div class="progress-wrap mb-3" id="upload-progress"><div class="d-flex justify-content-between mb-1"><small class="fw-bold text-muted">Uploading…</small><small id="progress-pct" class="fw-bold" style="color:var(--teal)">0%</small></div><div class="progress" style="height:8px;border-radius:4px"><div class="progress-bar" id="progress-bar" role="progressbar" style="width:0%;background:var(--teal);border-radius:4px"></div></div></div>
+            <button type="submit" class="btn-teal w-100" id="upload-btn"><i class="bi bi-upload me-2"></i>Post Assignment</button>
+          </form>
+        </div>
+        <div class="student-only" id="student-info-card">
+          <div class="p-4 rounded-3" style="background:linear-gradient(135deg,#EFF6FF,#EDE9FE);border:2px solid #BFDBFE"><h5 style="font-family:'Fredoka One',cursive;color:var(--violet)">📌 How to Submit</h5><ol class="small text-muted lh-lg mb-0"><li>Download the assignment PDF.</li><li>Complete your work.</li><li>Click <strong>Submit</strong> and upload your file.</li><li>Your teacher will review and grade it!</li></ol></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     PAGE: RESULTS / GRADES
+════════════════════════════════════ -->
+<section id="page-grades" class="page page-content">
+  <div class="sticky-section-bar">
+    <div class="container d-flex align-items-center justify-content-between flex-wrap gap-2">
+      <div><div class="section-title">📊 Results</div><p class="section-subtitle mb-0">Assignment results &amp; teacher feedback</p></div>
+      <div class="d-flex gap-2 align-items-center">
+        <span class="badge" id="grades-role-badge" style="background:var(--sky);color:var(--navy);font-size:.85rem;padding:.4rem .9rem;border-radius:50px;">🎒 Your Grades</span>
+        <button class="btn-primary-custom teacher-only d-none" onclick="showToast('Grade editing — connect to your backend API!','warning')" style="font-size:.85rem"><i class="bi bi-pencil-square me-1"></i>Edit Grades</button>
+      </div>
+    </div>
+  </div>
+  <div class="container py-4">
+    <div class="row g-3 mb-4">
+      <div class="col-sm-6 col-lg-3"><div class="p-3 rounded-3 text-center" style="background:#F0FDF4;border:2px solid #BBF7D0"><div style="font-size:2rem">✅</div><div style="font-family:'Fredoka One',cursive;font-size:1.7rem;color:var(--green)">8</div><div class="text-muted small">Graded</div></div></div>
+      <div class="col-sm-6 col-lg-3"><div class="p-3 rounded-3 text-center" style="background:#EFF6FF;border:2px solid #BFDBFE"><div style="font-size:2rem">⏳</div><div style="font-family:'Fredoka One',cursive;font-size:1.7rem;color:var(--sky)">2</div><div class="text-muted small">Pending</div></div></div>
+      <div class="col-sm-6 col-lg-3"><div class="p-3 rounded-3 text-center" style="background:#F5F3FF;border:2px solid #DDD6FE"><div style="font-size:2rem">⭐</div><div style="font-family:'Fredoka One',cursive;font-size:1.7rem;color:var(--violet)">A-</div><div class="text-muted small student-only">Your Average</div><div class="text-muted small teacher-only d-none">Class Average</div></div></div>
+      <div class="col-sm-6 col-lg-3"><div class="p-3 rounded-3 text-center" style="background:#FFF7F0;border:2px solid #FED7AA"><div style="font-size:2rem">🏆</div><div style="font-family:'Fredoka One',cursive;font-size:1.7rem;color:var(--orange)">92%</div><div class="text-muted small student-only">Best Score</div><div class="text-muted small teacher-only d-none">Top Score</div></div></div>
+    </div>
+    <div class="d-flex gap-2 mb-3 flex-wrap teacher-only d-none">
+      <input type="text" class="form-control" placeholder="🔍 Search student name…" style="max-width:260px" oninput="filterGrades(this.value)">
+      <select class="form-select" style="max-width:160px" onchange="filterGradeByGrade(this.value)"><option value="">All Grades</option><option>Grade 1</option><option>Grade 2</option><option>Grade 3</option><option>Grade 4</option><option>Grade 5</option></select>
+    </div>
+    <div class="grades-table-card"><div class="table-responsive"><table class="table grades-table mb-0" id="grades-table"><thead><tr><th><i class="bi bi-person-fill me-1"></i>Student</th><th><i class="bi bi-file-earmark-text me-1"></i>Assignment</th><th><i class="bi bi-mortarboard-fill me-1"></i>Grade Level</th><th><i class="bi bi-award-fill me-1"></i>Grade</th><th><i class="bi bi-chat-left-text-fill me-1"></i>Comments</th><th class="teacher-only d-none">Actions</th></tr></thead>
+    <tbody id="grades-tbody">
+      <tr data-student="Emma Patel" data-gl="Grade 1"><td><div class="d-flex align-items-center gap-2"><div class="rounded-circle d-flex align-items-center justify-content-center fw-bold text-white" style="width:32px;height:32px;background:var(--g1);font-size:.8rem">EP</div>Emma Patel</div></td><td>Addition Practice Sheet</td><td><span class="badge" style="background:#FFE4E6;color:var(--g1);border-radius:50px">Grade 1</span></td><td><span class="grade-pill grade-a">A</span></td><td class="text-muted small">Excellent! All correct. 🌟</td><td class="teacher-only d-none"><button class="btn-primary-custom" style="font-size:.75rem;padding:.3rem .7rem" onclick="showToast('Connect to backend to edit!','warning')"><i class="bi bi-pencil"></i></button></td></tr>
+      <tr data-student="Liam Okafor" data-gl="Grade 1"><td><div class="d-flex align-items-center gap-2"><div class="rounded-circle d-flex align-items-center justify-content-center fw-bold text-white" style="width:32px;height:32px;background:var(--violet);font-size:.8rem">LO</div>Liam Okafor</div></td><td>Addition Practice Sheet</td><td><span class="badge" style="background:#FFE4E6;color:var(--g1);border-radius:50px">Grade 1</span></td><td><span class="grade-pill grade-b">B+</span></td><td class="text-muted small">Good effort! Review Q4.</td><td class="teacher-only d-none"><button class="btn-primary-custom" style="font-size:.75rem;padding:.3rem .7rem" onclick="showToast('Connect to backend to edit!','warning')"><i class="bi bi-pencil"></i></button></td></tr>
+      <tr data-student="Sofia Martinez" data-gl="Grade 3"><td><div class="d-flex align-items-center gap-2"><div class="rounded-circle d-flex align-items-center justify-content-center fw-bold text-white" style="width:32px;height:32px;background:var(--g4);font-size:.8rem">SM</div>Sofia Martinez</div></td><td>Multiplication Quiz Prep</td><td><span class="badge" style="background:#FEF9C3;color:#92400E;border-radius:50px">Grade 3</span></td><td><span class="grade-pill grade-a">A-</span></td><td class="text-muted small">Work on 7× and 8× more.</td><td class="teacher-only d-none"><button class="btn-primary-custom" style="font-size:.75rem;padding:.3rem .7rem" onclick="showToast('Connect to backend to edit!','warning')"><i class="bi bi-pencil"></i></button></td></tr>
+      <tr data-student="Amara Johnson" data-gl="Grade 5"><td><div class="d-flex align-items-center gap-2"><div class="rounded-circle d-flex align-items-center justify-content-center fw-bold text-white" style="width:32px;height:32px;background:var(--orange);font-size:.8rem">AJ</div>Amara Johnson</div></td><td>Fractions Worksheet</td><td><span class="badge" style="background:#F5F3FF;color:var(--violet);border-radius:50px">Grade 5</span></td><td><span class="grade-pill grade-a">A+</span></td><td class="text-muted small">Perfect score! 🏆</td><td class="teacher-only d-none"><button class="btn-primary-custom" style="font-size:.75rem;padding:.3rem .7rem" onclick="showToast('Connect to backend to edit!','warning')"><i class="bi bi-pencil"></i></button></td></tr>
+    </tbody></table></div></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     PAGE: QUIZ
+════════════════════════════════════ -->
+<section id="page-quiz" class="page page-content">
+  <div class="sticky-section-bar">
+    <div class="container d-flex align-items-center justify-content-between flex-wrap gap-2">
+      <div><div class="section-title">🧠 Quiz Zone</div><p class="section-subtitle mb-0"><span class="student-only">Test your knowledge!</span><span class="teacher-only d-none">Build &amp; manage quizzes</span></p></div>
+      <div class="d-flex gap-2">
+        <select class="form-select" id="quiz-grade-select" style="max-width:160px" onchange="loadQuizForGrade(this.value)">
+          <option value="">Select Grade…</option>
+          <option value="1">Grade 1</option><option value="2">Grade 2</option>
+          <option value="3">Grade 3</option><option value="4">Grade 4</option><option value="5">Grade 5</option>
+        </select>
+        <button class="btn-primary-custom teacher-only d-none" onclick="showQuizBuilder()"><i class="bi bi-plus-lg me-1"></i>Build Quiz</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container py-4">
+    <!-- Teacher: Quiz Builder -->
+    <div id="quiz-builder-section" class="d-none">
+      <div class="quiz-builder-card mb-4">
+        <h5 style="font-family:'Fredoka One',cursive;color:var(--navy)" class="mb-3">🛠 Quiz Builder</h5>
+        <div class="row g-2 mb-3">
+          <div class="col-sm-5"><input type="text" class="form-control" id="qb-title" placeholder="Quiz title e.g. Addition Fun Quiz"></div>
+          <div class="col-sm-3"><select class="form-select" id="qb-grade"><option value="">Grade…</option><option value="1">Grade 1</option><option value="2">Grade 2</option><option value="3">Grade 3</option><option value="4">Grade 4</option><option value="5">Grade 5</option></select></div>
+          <div class="col-sm-4 d-flex gap-2"><button class="btn-teal" onclick="addQuestion()"><i class="bi bi-plus-lg me-1"></i>Add Question</button><button class="btn-primary-custom" onclick="saveQuiz()"><i class="bi bi-save me-1"></i>Save Quiz</button></div>
+        </div>
+        <div id="qb-questions"></div>
+        <p class="text-muted small mt-2" id="qb-hint">Click "Add Question" to start building your quiz. Mark the correct answer with the radio button.</p>
+      </div>
+    </div>
+
+    <!-- Saved Quizzes list (teacher) -->
+    <div id="saved-quizzes-section" class="teacher-only d-none mb-4">
+      <h6 style="font-family:'Fredoka One',cursive;color:var(--navy)">Saved Quizzes</h6>
+      <div id="saved-quizzes-list"></div>
+    </div>
+
+    <!-- Student: Take Quiz -->
+    <div id="quiz-play-section">
+      <div id="quiz-no-select" class="text-center py-5">
+        <div style="font-size:4rem">🎯</div>
+        <h3 style="font-family:'Fredoka One',cursive;color:var(--navy)">Pick a Grade to Start!</h3>
+        <p class="text-muted">Select a grade from the dropdown above, then take the quiz.</p>
+      </div>
+      <div id="quiz-play-wrap" class="d-none">
+        <div class="quiz-play-card">
+          <h5 style="font-family:'Fredoka One',cursive;color:var(--navy)" id="quiz-play-title">Quiz</h5>
+          <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quiz-prog-fill" style="background:var(--violet);width:0%"></div></div>
+          <p class="text-muted small mb-3" id="quiz-prog-label">Question 1 of 5</p>
+          <div class="quiz-q-display" id="quiz-q-text"></div>
+          <div id="quiz-options"></div>
+          <div id="quiz-feedback" class="d-none mt-2 p-3 rounded-2 fw-bold" style="font-size:.95rem"></div>
+          <button class="btn-teal w-100 mt-3 d-none" id="quiz-next-btn" onclick="nextQuestion()">Next Question →</button>
+        </div>
+      </div>
+      <div id="quiz-result-wrap" class="d-none text-center py-4">
+        <div class="quiz-score-badge" id="quiz-score-display" style="background:#F0FDF4;color:#15803D">0/0</div>
+        <h3 style="font-family:'Fredoka One',cursive;color:var(--navy)" id="quiz-result-msg">Well done!</h3>
+        <p class="text-muted" id="quiz-result-sub">Keep practising to improve your score!</p>
+        <button class="btn-teal me-2" onclick="retryQuiz()"><i class="bi bi-arrow-repeat me-1"></i>Try Again</button>
+        <button class="btn-primary-custom" onclick="showPage('grades-hub')"><i class="bi bi-book-fill me-1"></i>Back to Lectures</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+/* ══════════════════════════════════════════
+   STATE
+══════════════════════════════════════════ */
+let currentRole = 'student';
+let currentPage = 'home';
+let activeGrade  = null;
+let activeSubTabs = {1:'pdfs',2:'pdfs',3:'pdfs',4:'pdfs',5:'pdfs'};
+
+/* grade colours for active tab */
+const gradeColors = {1:'var(--g1)',2:'var(--g2)',3:'var(--g3)',4:'var(--g4)',5:'var(--g5)'};
+const gradeSubTabColors = {
+  1:'#FF6B6B',2:'#FB923C',3:'#D4AC00',4:'#22C55E',5:'#7C5CFC'
+};
+
+/* ══════════════════════════════════════════
+   PAGE ROUTER
+══════════════════════════════════════════ */
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelectorAll('.nav-link-btn').forEach(b => {
+    b.classList.remove('active');
+    if (b.textContent.toLowerCase().includes(id === 'grades-hub' ? 'grades hub' : id === 'grades' ? 'results' : id === 'quiz' ? 'quiz' : id)) b.classList.add('active');
+  });
+  currentPage = id;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ══════════════════════════════════════════
+   OPEN GRADE FROM HOME CARD
+══════════════════════════════════════════ */
+function openGrade(n) {
+  showPage('grades-hub');
+  setTimeout(() => selectGrade(n), 100);
+}
+
+/* ══════════════════════════════════════════
+   GRADE SELECTOR
+══════════════════════════════════════════ */
+function selectGrade(n) {
+  activeGrade = n;
+
+  /* update tabs */
+  for (let i=1;i<=5;i++) {
+    const tab = document.getElementById('gtab-'+i);
+    tab.classList.remove('active');
+    tab.style.background = '#fff';
+  }
+  const t = document.getElementById('gtab-'+n);
+  t.classList.add('active');
+  t.style.background = gradeColors[n];
+  t.style.borderColor = gradeColors[n];
+  t.style.color = '#fff';
+
+  /* show panel */
+  document.querySelectorAll('.grade-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-'+n).classList.add('active');
+  document.getElementById('no-grade-msg').style.display='none';
+
+  /* render lazy timetable & notepad if not done */
+  renderTimetable(n);
+  renderNotepad(n);
+
+  /* show correct sub-tab */
+  showSubTab(n, activeSubTabs[n]);
+}
+
+/* ══════════════════════════════════════════
+   SUB TABS
+══════════════════════════════════════════ */
+function showSubTab(grade, tab) {
+  activeSubTabs[grade] = tab;
+  const tabs = ['pdfs','videos','timetable','notepad'];
+  tabs.forEach(t => {
+    const el = document.getElementById('s'+grade+'-'+t);
+    if (el) el.classList.toggle('d-none', t !== tab);
+    const btn = document.getElementById('st'+grade+'-'+t);
+    if (btn) {
+      btn.classList.toggle('active', t === tab);
+      if (t === tab) {
+        btn.style.background = gradeSubTabColors[grade];
+        btn.style.color = '#fff';
+      } else {
+        btn.style.background = '';
+        btn.style.color = '';
+      }
+    }
+  });
+}
+
+/* ══════════════════════════════════════════
+   TIMETABLE RENDERER
+══════════════════════════════════════════ */
+const timetableData = {
+  1: { title:'Grade 1 Weekly Lecture Schedule', color:'#FF6B6B',
+    sessions:[
+      {day:'Monday',time:'9:00–9:45',topic:'Addition Basics',type:'live'},
+      {day:'Wednesday',time:'9:00–9:45',topic:'Subtraction Practice',type:'live'},
+      {day:'Friday',time:'10:00–10:30',topic:'Number Lines Review',type:'revision'},
+    ]},
+  2: { title:'Grade 2 Weekly Lecture Schedule', color:'#FB923C',
+    sessions:[
+      {day:'Monday',time:'10:00–10:45',topic:'Place Value',type:'live'},
+      {day:'Tuesday',time:'9:30–10:00',topic:'2D Shapes Intro',type:'live'},
+      {day:'Thursday',time:'9:00–9:30',topic:'Tens & Hundreds',type:'revision'},
+    ]},
+  3: { title:'Grade 3 Weekly Lecture Schedule', color:'#D4AC00',
+    sessions:[
+      {day:'Monday',time:'11:00–11:45',topic:'Times Tables 1–5',type:'live'},
+      {day:'Wednesday',time:'11:00–11:45',topic:'Times Tables 6–10',type:'live'},
+      {day:'Friday',time:'11:00–11:30',topic:'Division Practice',type:'revision'},
+    ]},
+  4: { title:'Grade 4 Weekly Lecture Schedule', color:'#22C55E',
+    sessions:[
+      {day:'Tuesday',time:'10:00–10:45',topic:'Angles & Triangles',type:'live'},
+      {day:'Thursday',time:'10:00–10:45',topic:'Geometry Review',type:'live'},
+      {day:'Friday',time:'9:30–10:00',topic:'Word Problems',type:'revision'},
+    ]},
+  5: { title:'Grade 5 Weekly Lecture Schedule', color:'#7C5CFC',
+    sessions:[
+      {day:'Monday',time:'12:00–12:45',topic:'Fractions',type:'live'},
+      {day:'Wednesday',time:'12:00–12:45',topic:'Decimals',type:'live'},
+      {day:'Friday',time:'12:00–12:30',topic:'Algebra Intro',type:'revision'},
+    ]},
+};
+
+const renderedTT = {};
+function renderTimetable(n) {
+  if (renderedTT[n]) return;
+  renderedTT[n] = true;
+  const data = timetableData[n];
+  const days = ['Monday','Tuesday','Wednesday','Thursday','Friday'];
+  const col = data.color;
+
+  let html = `<div style="background:#fff;border-radius:16px;padding:1.5rem;box-shadow:0 3px 14px rgba(0,0,0,.07)">
+    <h5 style="font-family:'Fredoka One',cursive;color:var(--navy);margin-bottom:.3rem">${data.title}</h5>
+    <p class="text-muted small mb-3">Your live lecture and revision sessions for the week.</p>
+    <div class="timetable-wrap"><table class="timetable">
+      <thead><tr><th style="width:90px">Time</th>${days.map(d=>`<th>${d}</th>`).join('')}</tr></thead>
+      <tbody>`;
+
+  /* build time slots */
+  const allTimes = [...new Set(data.sessions.map(s=>s.time))].sort();
+  allTimes.forEach(time => {
+    html += `<tr><td class="row-label">${time}</td>`;
+    days.forEach(day => {
+      const sess = data.sessions.find(s=>s.day===day&&s.time===time);
+      if (sess) {
+        const bg = sess.type==='live' ? col : '#E2E8F0';
+        const tc = sess.type==='live' ? '#fff' : '#475569';
+        const icon = sess.type==='live' ? '📡' : '📖';
+        html += `<td class="slot-active" style="background:${bg};color:${tc}">${icon} ${sess.topic}<br><small style="opacity:.8;font-size:.72rem">${sess.type==='live'?'Live Lecture':'Revision'}</small></td>`;
+      } else {
+        html += `<td class="slot-break">—</td>`;
+      }
+    });
+    html += `</tr>`;
+  });
+
+  html += `</tbody></table></div>
+    <div class="timetable-legend mt-3">
+      <div class="legend-dot"><span style="background:${col}"></span> Live Lecture</div>
+      <div class="legend-dot"><span style="background:#E2E8F0"></span> Revision Session</div>
+      <div class="legend-dot"><span style="background:#F8FAFC;border:1px solid #E2E8F0"></span> Free Period</div>
+    </div>
+    <p class="text-muted small mt-2"><i class="bi bi-info-circle me-1"></i>All live lectures are held in the classroom. Attend on time!</p>
+  </div>`;
+  document.getElementById('tt-container-'+n).innerHTML = html;
+}
+
+/* ══════════════════════════════════════════
+   NOTEPAD RENDERER
+══════════════════════════════════════════ */
+const renderedNP = {};
+function renderNotepad(n) {
+  if (renderedNP[n]) return;
+  renderedNP[n] = true;
+  const col = gradeSubTabColors[n];
+  const savedKey = 'mathworld_note_g'+n;
+  const saved = localStorage.getItem(savedKey) || '';
+  document.getElementById('np-container-'+n).innerHTML = `
+  <div class="notepad-wrap">
+    <div class="notepad-header" style="border-top:4px solid ${col}">
+      <div><strong style="font-family:'Fredoka One',cursive;color:var(--navy);font-size:1.1rem">📝 My Notes — Grade ${n}</strong><br><small class="text-muted">Write notes while watching lectures. Auto-saved in your browser!</small></div>
+      <span class="note-saved" id="note-saved-${n}">✅ Saved!</span>
+    </div>
+    <textarea class="notepad-textarea" id="notepad-${n}" placeholder="Start writing your notes here… e.g. 'Addition means combining two groups together. Example: 3 + 4 = 7'"
+      oninput="autoSaveNote(${n})">${saved}</textarea>
+    <div class="notepad-toolbar">
+      <button class="note-btn" onclick="formatNote(${n},'bold')"><i class="bi bi-type-bold"></i> Bold</button>
+      <button class="note-btn" onclick="formatNote(${n},'bullet')">• List</button>
+      <button class="note-btn" onclick="formatNote(${n},'date')">📅 Date</button>
+      <button class="note-btn" onclick="downloadNote(${n})">⬇️ Download</button>
+      <button class="note-btn" onclick="printNote(${n})">🖨️ Print</button>
+      <button class="note-btn danger" onclick="clearNote(${n})">🗑️ Clear</button>
+      <span class="ms-auto text-muted" style="font-size:.75rem" id="note-count-${n}">0 chars</span>
+    </div>
+  </div>`;
+  updateNoteCount(n);
+}
+
+function autoSaveNote(n) {
+  const val = document.getElementById('notepad-'+n).value;
+  localStorage.setItem('mathworld_note_g'+n, val);
+  const s = document.getElementById('note-saved-'+n);
+  s.classList.add('show');
+  clearTimeout(s._t);
+  s._t = setTimeout(()=>s.classList.remove('show'),2000);
+  updateNoteCount(n);
+}
+
+function updateNoteCount(n) {
+  const el = document.getElementById('notepad-'+n);
+  const c = document.getElementById('note-count-'+n);
+  if (el && c) c.textContent = el.value.length + ' chars';
+}
+
+function formatNote(n, type) {
+  const ta = document.getElementById('notepad-'+n);
+  const start = ta.selectionStart, end = ta.selectionEnd;
+  let insert = '';
+  if (type==='bold') insert = '**' + (ta.value.slice(start,end)||'text') + '**';
+  if (type==='bullet') insert = '\n• ';
+  if (type==='date') insert = '\n📅 ' + new Date().toLocaleDateString('en-GB',{weekday:'long',year:'numeric',month:'long',day:'numeric'}) + '\n';
+  ta.value = ta.value.slice(0,start) + insert + ta.value.slice(end);
+  ta.focus();
+  autoSaveNote(n);
+}
+
+function downloadNote(n) {
+  const text = document.getElementById('notepad-'+n).value;
+  const blob = new Blob([text],{type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `Grade${n}_MathNotes.txt`;
+  a.click();
+  showToast('📥 Notes downloaded!','success');
+}
+
+function printNote(n) {
+  const text = document.getElementById('notepad-'+n).value;
+  const win = window.open('','_blank');
+  win.document.write(`<pre style="font-family:serif;font-size:14px;line-height:1.8;padding:20px">${text}</pre>`);
+  win.print(); win.close();
+}
+
+function clearNote(n) {
+  if (!confirm('Clear all notes for Grade '+n+'?')) return;
+  document.getElementById('notepad-'+n).value = '';
+  localStorage.removeItem('mathworld_note_g'+n);
+  updateNoteCount(n);
+  showToast('🗑️ Notes cleared','info');
+}
+
+/* ══════════════════════════════════════════
+   YOUTUBE MODAL
+══════════════════════════════════════════ */
+function openYt(id, title) {
+  document.getElementById('ytFrame').src = 'https://www.youtube.com/embed/'+id+'?autoplay=1';
+  document.getElementById('ytModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeYtModal(e) {
+  if (e && e.target !== document.getElementById('ytModal') && !e.target.closest('.yt-modal-close')) return;
+  document.getElementById('ytFrame').src = '';
+  document.getElementById('ytModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ══════════════════════════════════════════
+   QUIZ SYSTEM
+══════════════════════════════════════════ */
+const builtInQuizzes = {
+  1: { title:'Grade 1: Addition & Subtraction Quiz', questions:[
+    {q:'What is 3 + 4?', opts:['5','6','7','8'], ans:2},
+    {q:'What is 9 - 3?', opts:['4','5','6','7'], ans:2},
+    {q:'How many is 2 + 2 + 2?', opts:['4','5','6','7'], ans:2},
+    {q:'What is 10 - 4?', opts:['4','5','6','7'], ans:2},
+    {q:'Sam has 5 apples and gets 3 more. How many?', opts:['6','7','8','9'], ans:2},
+  ]},
+  2: { title:'Grade 2: Place Value Quiz', questions:[
+    {q:'What is the tens digit in 47?', opts:['7','4','0','1'], ans:1},
+    {q:'Which number has 5 tens and 2 ones?', opts:['25','52','205','520'], ans:1},
+    {q:'How many sides does a square have?', opts:['3','4','5','6'], ans:1},
+    {q:'What is 60 + 8?', opts:['86','68','78','80'], ans:1},
+    {q:'A triangle has ___ sides.', opts:['2','3','4','5'], ans:1},
+  ]},
+  3: { title:'Grade 3: Multiplication & Division Quiz', questions:[
+    {q:'What is 6 × 7?', opts:['36','40','42','48'], ans:2},
+    {q:'What is 48 ÷ 6?', opts:['6','7','8','9'], ans:2},
+    {q:'What is 9 × 9?', opts:['72','81','90','63'], ans:1},
+    {q:'24 ÷ 4 = ?', opts:['4','5','6','7'], ans:2},
+    {q:'Which is 5 × 8?', opts:['35','40','45','50'], ans:1},
+  ]},
+  4: { title:'Grade 4: Geometry Quiz', questions:[
+    {q:'How many degrees in a right angle?', opts:['45','60','90','180'], ans:2},
+    {q:'A shape with 6 sides is called a?', opts:['Pentagon','Hexagon','Heptagon','Octagon'], ans:1},
+    {q:'What is the perimeter of a square with side 5cm?', opts:['10cm','15cm','20cm','25cm'], ans:2},
+    {q:'An equilateral triangle has ___ equal sides.', opts:['1','2','3','0'], ans:2},
+    {q:'Parallel lines will ___?', opts:['cross eventually','never meet','always meet','form a circle'], ans:1},
+  ]},
+  5: { title:'Grade 5: Fractions & Decimals Quiz', questions:[
+    {q:'What is 1/2 + 1/4?', opts:['1/6','2/6','3/4','2/8'], ans:2},
+    {q:'0.5 is the same as?', opts:['1/4','1/3','1/2','3/4'], ans:2},
+    {q:'What is 3/4 of 20?', opts:['10','12','15','18'], ans:2},
+    {q:'Which decimal equals 3/10?', opts:['0.03','0.3','3.0','30'], ans:1},
+    {q:'If x + 5 = 12, what is x?', opts:['5','6','7','8'], ans:2},
+  ]},
+};
+
+let customQuizzes = JSON.parse(localStorage.getItem('mathworld_quizzes') || '{}');
+let currentQuiz = null;
+let currentQIdx = 0;
+let quizScore = 0;
+let answered = false;
+
+function loadQuizForGrade(grade) {
+  if (!grade) return;
+  const g = parseInt(grade);
+  const quiz = (customQuizzes[g] && customQuizzes[g].length > 0) ? customQuizzes[g][0] : builtInQuizzes[g];
+  currentQuiz = quiz;
+  currentQIdx = 0; quizScore = 0;
+  document.getElementById('quiz-no-select').classList.add('d-none');
+  document.getElementById('quiz-result-wrap').classList.add('d-none');
+  document.getElementById('quiz-play-wrap').classList.remove('d-none');
+  document.getElementById('quiz-play-title').textContent = quiz.title;
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = currentQuiz.questions[currentQIdx];
+  const total = currentQuiz.questions.length;
+  answered = false;
+  document.getElementById('quiz-prog-fill').style.width = ((currentQIdx/total)*100)+'%';
+  document.getElementById('quiz-prog-label').textContent = `Question ${currentQIdx+1} of ${total}`;
+  document.getElementById('quiz-q-text').textContent = q.q;
+  document.getElementById('quiz-feedback').classList.add('d-none');
+  document.getElementById('quiz-next-btn').classList.add('d-none');
+  const opts = document.getElementById('quiz-options');
+  opts.innerHTML = '';
+  q.opts.forEach((opt,i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option-btn';
+    btn.textContent = opt;
+    btn.onclick = () => selectAnswer(i, q.ans, btn);
+    opts.appendChild(btn);
+  });
+}
+
+function selectAnswer(idx, correct, btn) {
+  if (answered) return;
+  answered = true;
+  const btns = document.querySelectorAll('.quiz-option-btn');
+  btns.forEach(b => b.style.pointerEvents = 'none');
+  const fb = document.getElementById('quiz-feedback');
+  fb.classList.remove('d-none');
+  if (idx === correct) {
+    quizScore++;
+    btn.classList.add('correct');
+    btns[correct].classList.add('correct');
+    fb.style.background = '#DCFCE7'; fb.style.color = '#15803D';
+    fb.textContent = '✅ Correct! Well done!';
+  } else {
+    btn.classList.add('wrong');
+    btns[correct].classList.add('correct');
+    fb.style.background = '#FEE2E2'; fb.style.color = '#991B1B';
+    fb.textContent = '❌ Not quite! The correct answer is: ' + currentQuiz.questions[currentQIdx].opts[correct];
+  }
+  const isLast = currentQIdx >= currentQuiz.questions.length - 1;
+  const nextBtn = document.getElementById('quiz-next-btn');
+  nextBtn.classList.remove('d-none');
+  nextBtn.textContent = isLast ? 'See Results 🎉' : 'Next Question →';
+}
+
+function nextQuestion() {
+  currentQIdx++;
+  if (currentQIdx >= currentQuiz.questions.length) {
+    showQuizResult();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showQuizResult() {
+  document.getElementById('quiz-play-wrap').classList.add('d-none');
+  document.getElementById('quiz-result-wrap').classList.remove('d-none');
+  const total = currentQuiz.questions.length;
+  const pct = Math.round((quizScore/total)*100);
+  document.getElementById('quiz-score-display').textContent = quizScore+'/'+total;
+  let msg, sub, bg, col;
+  if (pct===100){msg='Perfect Score! 🌟';sub="You're a MathWorld star!";bg='#DCFCE7';col='#15803D';}
+  else if(pct>=80){msg='Excellent! 🎉';sub="Great job! Keep it up!";bg='#DBEAFE';col='#1D4ED8';}
+  else if(pct>=60){msg='Good Work! 👍';sub="Review the questions you missed.";bg='#FEF9C3';col='#854D0E';}
+  else{msg='Keep Practising! 💪';sub="Review your lectures and try again!";bg='#FFE4E6';col='#BE123C';}
+  const sd = document.getElementById('quiz-score-display');
+  sd.style.background=bg; sd.style.color=col;
+  document.getElementById('quiz-result-msg').textContent=msg;
+  document.getElementById('quiz-result-sub').textContent=sub;
+}
+
+function retryQuiz() {
+  currentQIdx=0; quizScore=0;
+  document.getElementById('quiz-result-wrap').classList.add('d-none');
+  document.getElementById('quiz-play-wrap').classList.remove('d-none');
+  renderQuestion();
+}
+
+/* Teacher quiz builder */
+let qbQuestions = [];
+
+function showQuizBuilder() {
+  document.getElementById('quiz-builder-section').classList.toggle('d-none');
+}
+
+function addQuestion() {
+  const idx = qbQuestions.length;
+  qbQuestions.push({q:'',opts:['','','',''],ans:0});
+  const div = document.createElement('div');
+  div.className = 'quiz-question-item';
+  div.id = 'qitem-'+idx;
+  div.innerHTML = `<div class="d-flex justify-content-between mb-2"><strong style="color:var(--violet)">Q${idx+1}</strong><button class="btn-danger-soft" style="font-size:.75rem;padding:.2rem .6rem" onclick="removeQuestion(${idx})">Remove</button></div>
+    <input type="text" class="form-control mb-2" placeholder="Question text…" oninput="qbQuestions[${idx}].q=this.value">
+    ${[0,1,2,3].map(o=>`
+    <div class="quiz-option-row">
+      <input type="radio" name="qb-ans-${idx}" value="${o}" onclick="qbQuestions[${idx}].ans=${o}">
+      <input type="text" class="form-control form-control-sm" placeholder="Option ${o+1}…" style="flex:1" oninput="qbQuestions[${idx}].opts[${o}]=this.value">
+      ${o===0?'<span class="quiz-correct-label">← mark correct</span>':''}
+    </div>`).join('')}`;
+  document.getElementById('qb-questions').appendChild(div);
+  document.getElementById('qb-hint').textContent = 'Mark the correct answer with the radio button (●).';
+}
+
+function removeQuestion(idx) {
+  const el = document.getElementById('qitem-'+idx);
+  if (el) el.remove();
+}
+
+function saveQuiz() {
+  const title = document.getElementById('qb-title').value.trim();
+  const grade = parseInt(document.getElementById('qb-grade').value);
+  if (!title || !grade) { showToast('⚠️ Please fill in quiz title and grade.','warning'); return; }
+  const filled = qbQuestions.filter(q=>q.q && q.opts.every(o=>o));
+  if (filled.length < 2) { showToast('⚠️ Add at least 2 complete questions.','warning'); return; }
+  if (!customQuizzes[grade]) customQuizzes[grade] = [];
+  customQuizzes[grade].unshift({title, questions:filled});
+  localStorage.setItem('mathworld_quizzes', JSON.stringify(customQuizzes));
+  qbQuestions = [];
+  document.getElementById('qb-questions').innerHTML = '';
+  document.getElementById('qb-title').value = '';
+  showToast(`✅ Quiz "${title}" saved for Grade ${grade}!`,'success');
+  renderSavedQuizzes();
+  document.getElementById('quiz-builder-section').classList.add('d-none');
+}
+
+function renderSavedQuizzes() {
+  const el = document.getElementById('saved-quizzes-list');
+  const all = Object.entries(customQuizzes).flatMap(([g,qs])=>qs.map(q=>({...q,grade:g})));
+  if (!all.length){el.innerHTML='<p class="text-muted small">No custom quizzes yet.</p>';return;}
+  el.innerHTML = all.map((q,i)=>`<div class="d-flex align-items-center justify-content-between p-2 mb-1 rounded-2" style="background:#F8FAFC;border:1px solid #E2E8F0"><span><strong>${q.title}</strong> <span class="badge" style="background:#EDE9FE;color:var(--violet);border-radius:50px;font-size:.75rem">Grade ${q.grade}</span></span><button class="btn-danger-soft" style="font-size:.75rem" onclick="deleteCustomQuiz(${q.grade},${i})"><i class="bi bi-trash3"></i></button></div>`).join('');
+}
+
+function deleteCustomQuiz(grade, idx) {
+  customQuizzes[grade].splice(idx,1);
+  localStorage.setItem('mathworld_quizzes',JSON.stringify(customQuizzes));
+  renderSavedQuizzes();
+  showToast('🗑️ Quiz deleted','info');
+}
+
+/* ══════════════════════════════════════════
+   ROLE SWITCH
+══════════════════════════════════════════ */
+function toggleRole(checkbox) {
+  currentRole = checkbox.checked ? 'teacher' : 'student';
+  applyRoleUI();
+}
+
+function applyRoleUI() {
+  const isTeacher = currentRole === 'teacher';
+  const label = document.getElementById('role-label');
+  label.textContent = isTeacher ? '🍎 Teacher' : '🎒 Student';
+  label.className = isTeacher ? 'teacher' : 'student';
+  document.querySelectorAll('.teacher-only').forEach(el => el.classList.toggle('d-none',!isTeacher));
+  document.querySelectorAll('.student-only').forEach(el => el.classList.toggle('d-none',isTeacher));
+  const ab = document.getElementById('assign-role-badge');
+  if (ab) { ab.textContent=isTeacher?'🍎 Teacher View':'🎒 Student View'; ab.style.background=isTeacher?'var(--teal)':'var(--sky)'; }
+  const gb = document.getElementById('grades-role-badge');
+  if (gb) { gb.textContent=isTeacher?'🍎 All Students':'🎒 Your Grades'; gb.style.background=isTeacher?'var(--teal)':'var(--sky)'; }
+  if (isTeacher) renderSavedQuizzes();
+  showToast(isTeacher?'🍎 Teacher mode — upload & quiz controls visible':'🎒 Student mode — personal access only', isTeacher?'success':'info');
+}
+
+/* ══════════════════════════════════════════
+   UPLOAD LECTURE (teacher)
+══════════════════════════════════════════ */
+function uploadLecture(grade) {
+  const titleEl = document.getElementById('ul'+grade+'-title');
+  const fileEl  = document.getElementById('ul'+grade+'-file');
+  if (!titleEl.value.trim()) { showToast('⚠️ Enter a lecture title.','warning'); return; }
+  if (!fileEl.files[0])       { showToast('⚠️ Choose a PDF file.','warning'); return; }
+  const title = titleEl.value.trim();
+  const fname = fileEl.files[0].name;
+  const list  = document.getElementById('g'+grade+'-pdf-list');
+  const item  = document.createElement('div');
+  item.className='pdf-item';
+  item.innerHTML=`<div class="pdf-icon"><i class="bi bi-file-earmark-pdf-fill"></i></div><div class="pdf-meta"><strong>${title}</strong><span>PDF · Just uploaded</span></div><div class="d-flex gap-2 flex-wrap"><button class="btn-download" onclick="simDownload('${fname}')"><i class="bi bi-download me-1"></i>Download</button><button class="btn-danger-soft teacher-only" onclick="this.closest('.pdf-item').remove();showToast('Deleted','info')"><i class="bi bi-trash3"></i></button></div>`;
+  list.appendChild(item);
+  titleEl.value=''; fileEl.value='';
+  showToast(`✅ "${title}" uploaded to Grade ${grade}!`,'success');
+}
+
+/* ══════════════════════════════════════════
+   ASSIGNMENT HANDLERS
+══════════════════════════════════════════ */
+function handleUpload(event, type) {
+  event.preventDefault();
+  const fileInput = document.getElementById('pdfUpload');
+  if (!fileInput || !fileInput.files[0]) { showToast('⚠️ Choose a PDF first.','warning'); return; }
+  const file = fileInput.files[0];
+  simulateUploadProgress(() => {
+    addAssignmentToUI(document.getElementById('asgn-title').value, document.getElementById('asgn-grade').value, document.getElementById('asgn-due').value, file.name);
+    document.getElementById('assignment-upload-form').reset();
+    clearFile();
+  });
+}
+
+function simulateUploadProgress(onComplete) {
+  const wrap=document.getElementById('upload-progress'),bar=document.getElementById('progress-bar'),pct=document.getElementById('progress-pct'),btn=document.getElementById('upload-btn');
+  if (!wrap){onComplete();return;}
+  wrap.style.display='block';
+  if(btn){btn.disabled=true;btn.innerHTML='<i class="bi bi-hourglass-split me-2"></i>Uploading…';}
+  let progress=0;
+  const iv=setInterval(()=>{
+    progress+=Math.random()*18+5;
+    if(progress>=100){progress=100;clearInterval(iv);}
+    bar.style.width=progress+'%';pct.textContent=Math.round(progress)+'%';
+    if(progress===100){setTimeout(()=>{wrap.style.display='none';bar.style.width='0%';pct.textContent='0%';if(btn){btn.disabled=false;btn.innerHTML='<i class="bi bi-upload me-2"></i>Post Assignment';}onComplete();},400);}
+  },120);
+}
+
+function addAssignmentToUI(title,grade,dueDate,fileName) {
+  const colors={'Grade 1':'var(--g1)','Grade 2':'var(--g2)','Grade 3':'var(--g3)','Grade 4':'var(--g4)','Grade 5':'var(--g5)'};
+  const color=colors[grade]||'var(--teal)';
+  const due=dueDate?new Date(dueDate).toLocaleDateString('en-GB',{day:'numeric',month:'short'}):'';
+  const card=document.createElement('div');
+  card.className='assignment-card';card.style.borderLeftColor=color;
+  card.innerHTML=`<div class="card-header-custom"><div><strong>${grade} · ${title}</strong><div class="text-muted" style="font-size:.8rem">Posted by you · Just now</div></div>${due?`<span class="badge-due" style="background:#F5F3FF;color:#6D28D9">Due ${due}</span>`:''}</div><div class="p-3 d-flex align-items-center justify-content-between flex-wrap gap-2"><p class="text-muted small mb-0"><i class="bi bi-file-earmark-pdf text-danger me-1"></i>${fileName}</p><div class="d-flex gap-2"><button class="btn-download" onclick="simDownload('${fileName}')"><i class="bi bi-download me-1"></i>Get PDF</button><button class="btn-primary-custom teacher-only" style="font-size:.82rem;padding:.4rem 1rem"><i class="bi bi-eye me-1"></i>0 Submissions</button></div></div>`;
+  document.querySelector('#page-assignments .col-lg-7').appendChild(card);
+  card.scrollIntoView({behavior:'smooth',block:'center'});
+  showToast(`✅ "${title}" posted to ${grade}!`,'success');
+}
+
+function handleStudentSubmit(event, title) {
+  const file=event.target.files[0];
+  if(!file)return;
+  if(!file.name.endsWith('.pdf')){showToast('⚠️ PDF files only.','warning');return;}
+  showToast(`📤 "${file.name}" submitted for "${title}"!`,'success');
+  event.target.value='';
+}
+
+function onDragOver(e){e.preventDefault();document.getElementById('dropZone').classList.add('drag-over');}
+function onDragLeave(){document.getElementById('dropZone').classList.remove('drag-over');}
+function onDrop(e){
+  e.preventDefault();document.getElementById('dropZone').classList.remove('drag-over');
+  const file=e.dataTransfer.files[0];
+  if(file&&file.type==='application/pdf'){const dt=new DataTransfer();dt.items.add(file);document.getElementById('pdfUpload').files=dt.files;showFileInfo(file);}
+  else showToast('⚠️ PDF files only.','warning');
+}
+function onFileSelected(e){const file=e.target.files[0];if(file)showFileInfo(file);}
+function showFileInfo(file){document.getElementById('file-name').textContent=file.name;document.getElementById('file-size').textContent=(file.size/1024).toFixed(1)+' KB';document.getElementById('file-info').classList.remove('d-none');}
+function clearFile(){document.getElementById('pdfUpload').value='';document.getElementById('file-info').classList.add('d-none');}
+
+/* ══════════════════════════════════════════
+   GRADES TABLE FILTERS
+══════════════════════════════════════════ */
+function filterGrades(q){document.querySelectorAll('#grades-tbody tr').forEach(r=>{r.style.display=(r.dataset.student||'').toLowerCase().includes(q.toLowerCase())?'':' none';});}
+function filterGradeByGrade(g){document.querySelectorAll('#grades-tbody tr').forEach(r=>{r.style.display=(!g||r.dataset.gl===g)?'':'none';});}
+
+/* ══════════════════════════════════════════
+   DOWNLOAD SIM
+══════════════════════════════════════════ */
+function simDownload(filename){showToast(`⬇️ Downloading "${filename}"…`,'info');}
+
+/* ══════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════ */
+function showToast(msg,type='success'){
+  const t=document.getElementById('liveToast'),m=document.getElementById('toast-msg');
+  t.className='toast align-items-center border-0';
+  if(type==='success')t.classList.add('text-bg-success');
+  else if(type==='warning')t.classList.add('text-bg-warning','text-dark');
+  else if(type==='info')t.classList.add('text-bg-info','text-dark');
+  else t.classList.add('text-bg-danger');
+  m.textContent=msg;
+  new bootstrap.Toast(t,{delay:4000}).show();
+}
+
+/* ══════════════════════════════════════════
+   INIT
+══════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded',()=>{
+  showPage('home');
+  applyRoleUI();
+  /* ESC closes YT modal */
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeYtModal({}); });
+});
+
+
+// ========== SCROLL FUNCTIONS ==========
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
+
+function scrollToBottom() {
+  window.scrollTo({
+    top: document.body.scrollHeight,
+    behavior: 'smooth'
+  });
+}
+
+// Show/hide scroll buttons based on scroll position
+function checkScrollPosition() {
+  const scrollUpBtn = document.getElementById('scrollUpBtn');
+  const scrollDownBtn = document.getElementById('scrollDownBtn');
+  
+  if (!scrollUpBtn || !scrollDownBtn) return;
+  
+  const scrollPosition = window.scrollY;
+  const pageHeight = document.body.scrollHeight;
+  const windowHeight = window.innerHeight;
+  
+  // Show scroll up button when scrolled down more than 300px
+  if (scrollPosition > 300) {
+    scrollUpBtn.classList.add('show');
+  } else {
+    scrollUpBtn.classList.remove('show');
+  }
+  
+  // Show scroll down button when not at bottom
+  if (scrollPosition + windowHeight < pageHeight - 100) {
+    scrollDownBtn.classList.add('show');
+  } else {
+    scrollDownBtn.classList.remove('show');
+  }
+}
+
+// Listen to scroll event
+window.addEventListener('scroll', checkScrollPosition);
+window.addEventListener('resize', checkScrollPosition);
+
+// Call on page load
+document.addEventListener('DOMContentLoaded', function() {
+  checkScrollPosition();
+});
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>
+
+
+

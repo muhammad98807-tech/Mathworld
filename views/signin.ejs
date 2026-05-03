@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Sign In | MathWorld Primary - Student & Teacher Portal</title>
+  
+  <!-- Website Icon -->
+  <link rel="icon" type="image/png" href="https://img.icons8.com/color/48/math.png">
+  <link rel="shortcut icon" type="image/png" href="https://img.icons8.com/color/48/math.png">
+  
+  <!-- Bootstrap 5 + Icons + Fonts -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fredoka+One&display=swap" rel="stylesheet" />
+  
+  <style>
+    :root {
+      --primary: #6366F1;
+      --primary-dark: #4F46E5;
+      --secondary: #10B981;
+      --accent: #F59E0B;
+      --danger: #EF4444;
+      --dark: #1F2937;
+      --light: #F9FAFB;
+      --gray: #6B7280;
+      --border: #E5E7EB;
+      --gradient-start: #6366F1;
+      --gradient-end: #8B5CF6;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      position: relative;
+    }
+    
+    /* Animated Background */
+    body::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text x="10" y="30" font-size="20" opacity="0.1">➕</text><text x="70" y="50" font-size="25" opacity="0.08">✖️</text><text x="30" y="80" font-size="18" opacity="0.12">➗</text><text x="80" y="85" font-size="22" opacity="0.1">🔢</text><text x="15" y="60" font-size="16" opacity="0.09">📐</text></svg>');
+      background-repeat: repeat;
+      opacity: 0.3;
+      pointer-events: none;
+    }
+    
+    /* Main Card */
+    .signin-card {
+      position: relative;
+      z-index: 10;
+      max-width: 520px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(10px);
+      border-radius: 40px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .signin-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Header */
+    .signin-header {
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      padding: 2rem 2rem 2.5rem;
+      text-align: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .signin-header::before {
+      content: '✧';
+      position: absolute;
+      font-size: 8rem;
+      opacity: 0.1;
+      right: -20px;
+      top: -30px;
+      transform: rotate(15deg);
+    }
+    
+    .signin-header h1 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.5px;
+    }
+    
+    .signin-header h1 span {
+      color: #FCD34D;
+    }
+    
+    .signin-header p {
+      opacity: 0.9;
+      font-size: 0.9rem;
+    }
+    
+    /* Role Selection - Modern Toggle */
+    .role-selector {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+      padding: 0.5rem;
+      background: #F3F4F6;
+      border-radius: 60px;
+    }
+    
+    .role-btn {
+      flex: 1;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      background: transparent;
+      color: #6B7280;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .role-btn i {
+      font-size: 1.1rem;
+    }
+    
+    .role-btn.active {
+      background: white;
+      color: var(--primary);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+    
+    .role-btn.active.student {
+      background: linear-gradient(135deg, #10B981, #059669);
+      color: white;
+    }
+    
+    .role-btn.active.teacher {
+      background: linear-gradient(135deg, #6366F1, #4F46E5);
+      color: white;
+    }
+    
+    .role-btn:hover:not(.active) {
+      background: #E5E7EB;
+      transform: translateY(-1px);
+    }
+    
+    /* Form Container */
+    .form-container {
+      padding: 2rem 2rem 1.8rem;
+    }
+    
+    /* Modern Input Groups */
+    .input-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .input-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--dark);
+      font-size: 0.85rem;
+      letter-spacing: -0.2px;
+    }
+    
+    .input-group label i {
+      margin-right: 8px;
+      color: var(--primary);
+      font-size: 0.9rem;
+    }
+    
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    
+    .input-wrapper input,
+    .input-wrapper select {
+      width: 100%;
+      padding: 14px 18px;
+      font-size: 0.95rem;
+      font-family: 'Inter', sans-serif;
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      background: white;
+      transition: all 0.25s;
+      outline: none;
+      font-weight: 500;
+      color: var(--dark);
+    }
+    
+    .input-wrapper input:focus,
+    .input-wrapper select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    }
+    
+    .input-wrapper input:hover,
+    .input-wrapper select:hover {
+      border-color: #CBD5E1;
+    }
+    
+    /* Password Toggle */
+    .password-toggle {
+      position: absolute;
+      right: 16px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: var(--gray);
+      transition: color 0.2s;
+      padding: 8px;
+      border-radius: 50%;
+    }
+    
+    .password-toggle:hover {
+      color: var(--primary);
+      background: #F3F4F6;
+    }
+    
+    /* Name Row - Two Columns */
+    .name-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    
+    /* Age & Grade Row */
+    .info-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    
+    /* Gender Options - Modern Chip Style */
+    .gender-options {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 5px;
+    }
+    
+    .gender-chip {
+      flex: 1;
+      padding: 12px 16px;
+      border: 2px solid var(--border);
+      border-radius: 60px;
+      background: white;
+      cursor: pointer;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+      color: var(--gray);
+    }
+    
+    .gender-chip i {
+      margin-right: 6px;
+    }
+    
+    .gender-chip.selected {
+      background: linear-gradient(135deg, #10B981, #059669);
+      border-color: #10B981;
+      color: white;
+    }
+    
+    .gender-chip input {
+      display: none;
+    }
+    
+    /* Passcode Option */
+    .passcode-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      padding: 10px 0;
+    }
+    
+    .passcode-toggle label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--dark);
+    }
+    
+    .passcode-toggle input {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: var(--primary);
+    }
+    
+    .passcode-hint {
+      font-size: 0.7rem;
+      color: var(--gray);
+      margin-top: 5px;
+    }
+    
+    /* Forgot Password */
+    .forgot-password {
+      text-align: right;
+      margin: 0.5rem 0 1.5rem;
+    }
+    
+    .forgot-password a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.8rem;
+      transition: color 0.2s;
+    }
+    
+    .forgot-password a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+    
+    /* Sign In Button */
+    .signin-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      border: none;
+      padding: 15px;
+      border-radius: 60px;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 10px;
+    }
+    
+    .signin-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
+    }
+    
+    .signin-btn:active {
+      transform: translateY(1px);
+    }
+    
+    /* Divider */
+    .divider {
+      text-align: center;
+      margin: 1.5rem 0 1rem;
+      position: relative;
+    }
+    
+    .divider::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--border);
+    }
+    
+    .divider span {
+      background: white;
+      padding: 0 12px;
+      position: relative;
+      color: var(--gray);
+      font-size: 0.75rem;
+    }
+    
+    /* Message Box */
+    .message-box {
+      margin-top: 1rem;
+      padding: 12px 16px;
+      border-radius: 16px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.85rem;
+      display: none;
+      animation: slideDown 0.3s ease;
+    }
+    
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .message-box.error {
+      background: #FEF2F2;
+      color: #DC2626;
+      display: block;
+      border-left: 4px solid #DC2626;
+    }
+    
+    .message-box.success {
+      background: #ECFDF5;
+      color: #059669;
+      display: block;
+      border-left: 4px solid #059669;
+    }
+    
+    .message-box.info {
+      background: #EFF6FF;
+      color: #2563EB;
+      display: block;
+      border-left: 4px solid #2563EB;
+    }
+    
+    /* Footer */
+    .signin-footer {
+      text-align: center;
+      padding: 1rem;
+      background: #F9FAFB;
+      border-top: 1px solid var(--border);
+      font-size: 0.7rem;
+      color: var(--gray);
+    }
+    
+    /* Modal */
+    .modal-custom {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .modal-custom.show {
+      display: flex;
+    }
+    
+    .modal-content-custom {
+      background: white;
+      max-width: 400px;
+      width: 90%;
+      padding: 2rem;
+      border-radius: 32px;
+      text-align: center;
+      animation: modalPop 0.3s ease;
+    }
+    
+    @keyframes modalPop {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    
+    .modal-content-custom h3 {
+      font-family: 'Fredoka One', cursive;
+      margin-bottom: 0.5rem;
+    }
+    
+    .modal-content-custom input {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      margin: 1rem 0;
+    }
+    
+    .modal-content-custom button {
+      padding: 10px 24px;
+      border-radius: 50px;
+      border: none;
+      font-weight: 600;
+      margin: 0 5px;
+      cursor: pointer;
+    }
+    
+    /* Student Fields Animation */
+    .additional-fields {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .additional-fields.show {
+      max-height: 800px;
+    }
+    
+    /* Responsive */
+    @media (max-width: 500px) {
+      .signin-card {
+        border-radius: 28px;
+      }
+      .form-container {
+        padding: 1.5rem;
+      }
+      .name-row, .info-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+      .role-btn {
+        padding: 10px 12px;
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Main Sign In Card -->
+<div class="signin-card">
+  <div class="signin-header">
+    <h1>Math<span>World</span></h1>
+    <p><i class="bi bi-box-arrow-in-right"></i> Sign in to continue your math journey</p>
+  </div>
+  
+  <div class="form-container">
+    <!-- Role Selection -->
+    <div class="role-selector">
+      <button class="role-btn student active" onclick="selectRole('student')">
+        <i class="bi bi-mortarboard-fill"></i> Student
+      </button>
+      <button class="role-btn teacher" onclick="selectRole('teacher')">
+        <i class="bi bi-person-badge-fill"></i> Teacher
+      </button>
+    </div>
+    
+    <form id="signinForm" onsubmit="handleSignIn(event)">
+      <!-- Email Field -->
+      <div class="input-group">
+        <label><i class="bi bi-envelope-fill"></i> Email Address</label>
+        <div class="input-wrapper">
+          <input type="email" id="email" placeholder="student@example.com" required>
+        </div>
+      </div>
+      
+      <!-- Password Field with Eye Toggle -->
+      <div class="input-group">
+        <label><i class="bi bi-lock-fill"></i> Password</label>
+        <div class="input-wrapper">
+          <input type="password" id="password" placeholder="Enter your password" required>
+          <button type="button" class="password-toggle" onclick="togglePassword()">
+            <i class="bi bi-eye-slash" id="toggleIcon"></i>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Passcode Option -->
+      <div class="passcode-toggle">
+        <label>
+          <input type="checkbox" id="usePasscode" onchange="togglePasscodeMode()">
+          <i class="bi bi-shield-lock-fill" style="color: var(--primary);"></i> Use 6-digit Passcode instead
+        </label>
+      </div>
+      <div class="passcode-hint" id="passcodeHint">
+        <i class="bi bi-info-circle-fill"></i> Passcode is a 6-digit number (e.g., 123456) - faster than typing password!
+      </div>
+      
+      <!-- Student Additional Fields -->
+      <div class="additional-fields show" id="studentFields">
+        <div class="divider"><span>📋 Student Information</span></div>
+        
+        <!-- Name Row - First & Last -->
+        <div class="name-row">
+          <div class="input-group">
+            <label><i class="bi bi-person-fill"></i> First Name</label>
+            <div class="input-wrapper">
+              <input type="text" id="firstName" placeholder="Ayesha">
+            </div>
+          </div>
+          <div class="input-group">
+            <label><i class="bi bi-person-fill"></i> Last Name</label>
+            <div class="input-wrapper">
+              <input type="text" id="lastName" placeholder="Khan">
+            </div>
+          </div>
+        </div>
+        
+        <!-- Age & Grade Row -->
+        <div class="info-row">
+          <div class="input-group">
+            <label><i class="bi bi-cake2-fill"></i> Age</label>
+            <div class="input-wrapper">
+              <input type="number" id="age" placeholder="5-12 years" min="4" max="13">
+            </div>
+          </div>
+          <div class="input-group">
+            <label><i class="bi bi-layers-fill"></i> Grade</label>
+            <div class="input-wrapper">
+              <select id="grade">
+                <option value="">Select Grade</option>
+                <option value="Grade 1">🌟 Grade 1 - Addition & Subtraction</option>
+                <option value="Grade 2">✨ Grade 2 - Place Value & Shapes</option>
+                <option value="Grade 3">⭐ Grade 3 - Multiplication & Division</option>
+                <option value="Grade 4">📚 Grade 4 - Geometry & Word Problems</option>
+                <option value="Grade 5">🏆 Grade 5 - Fractions & Algebra</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Gender - Modern Chip Style -->
+        <div class="input-group">
+          <label><i class="bi bi-gender-ambiguous"></i> Gender</label>
+          <div class="gender-options">
+            <div class="gender-chip" onclick="selectGender('Female')">
+              <i class="bi bi-female"></i> Girl
+              <input type="radio" name="gender" value="Female" id="genderFemale">
+            </div>
+            <div class="gender-chip" onclick="selectGender('Male')">
+              <i class="bi bi-male"></i> Boy
+              <input type="radio" name="gender" value="Male" id="genderMale">
+            </div>
+            <div class="gender-chip" onclick="selectGender('Other')">
+              <i class="bi bi-emoji-smile"></i> Other
+              <input type="radio" name="gender" value="Other" id="genderOther">
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Forgot Password Link -->
+      <div class="forgot-password">
+        <a href="#" onclick="showForgotPasswordModal(event)">Forgot Password / Passcode?</a>
+      </div>
+      
+      <!-- Sign In Button -->
+      <button type="submit" class="signin-btn" id="signinBtn">
+        <i class="bi bi-box-arrow-in-right"></i> Sign In
+      </button>
+      
+      <!-- Message Box -->
+      <div id="messageBox" class="message-box"></div>
+    </form>
+  </div>
+  
+  <div class="signin-footer">
+    <i class="bi bi-shield-check"></i> Secure Login | <i class="bi bi-cookie"></i> Cookies enabled for better experience
+  </div>
+</div>
+
+<!-- Forgot Password Modal -->
+<div id="forgotModal" class="modal-custom" onclick="closeModalOnClick(event)">
+  <div class="modal-content-custom">
+    <i class="bi bi-envelope-paper-fill" style="font-size: 3rem; color: var(--primary);"></i>
+    <h3>Reset Your Access</h3>
+    <p>Enter your email and we'll send you recovery instructions.</p>
+    <input type="email" id="resetEmail" placeholder="your@email.com">
+    <div>
+      <button onclick="sendResetLink()" style="background: var(--primary); color: white;">Send Recovery Link</button>
+      <button onclick="closeForgotModal()" style="background: #F3F4F6;">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Current selected role
+  let currentRole = 'student';
+  let isPasscodeMode = false;
+  
+  // Select Role Function
+  function selectRole(role) {
+    currentRole = role;
+    
+    // Update active button styles
+    document.querySelectorAll('.role-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    document.querySelector(`.role-btn.${role}`).classList.add('active');
+    
+    // Show/Hide Student additional fields
+    const studentFields = document.getElementById('studentFields');
+    if (role === 'student') {
+      studentFields.classList.add('show');
+    } else {
+      studentFields.classList.remove('show');
+    }
+  }
+  
+  // Toggle Passcode Mode
+  function togglePasscodeMode() {
+    const checkbox = document.getElementById('usePasscode');
+    const passwordInput = document.getElementById('password');
+    const passcodeHint = document.getElementById('passcodeHint');
+    
+    isPasscodeMode = checkbox.checked;
+    
+    if (isPasscodeMode) {
+      passwordInput.type = 'text';
+      passwordInput.placeholder = 'Enter 6-digit passcode (e.g., 123456)';
+      passwordInput.maxLength = 6;
+      passwordInput.pattern = '[0-9]{6}';
+      passcodeHint.innerHTML = '<i class="bi bi-shield-check-fill"></i> Passcode mode: Enter a 6-digit number. Your passcode is secure and faster!';
+      passcodeHint.style.color = '#059669';
+    } else {
+      passwordInput.type = 'password';
+      passwordInput.placeholder = 'Enter your password';
+      passwordInput.maxLength = '';
+      passwordInput.removeAttribute('pattern');
+      passcodeHint.innerHTML = '<i class="bi bi-info-circle-fill"></i> Passcode is a 6-digit number (e.g., 123456) - faster than typing password!';
+      passcodeHint.style.color = '#6B7280';
+    }
+  }
+  
+  // Toggle Password Visibility
+  function togglePassword() {
+    const passwordInput = document.getElementById('password');
+    const toggleIcon = document.getElementById('toggleIcon');
+    
+    if (isPasscodeMode) return; // Passcode mode always visible
+    
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      toggleIcon.classList.remove('bi-eye-slash');
+      toggleIcon.classList.add('bi-eye');
+    } else {
+      passwordInput.type = 'password';
+      toggleIcon.classList.remove('bi-eye');
+      toggleIcon.classList.add('bi-eye-slash');
+    }
+  }
+  
+  // Select Gender with Chip Style
+  function selectGender(gender) {
+    const chips = document.querySelectorAll('.gender-chip');
+    chips.forEach(chip => chip.classList.remove('selected'));
+    
+    let selectedChip;
+    if (gender === 'Female') selectedChip = chips[0];
+    else if (gender === 'Male') selectedChip = chips[1];
+    else selectedChip = chips[2];
+    
+    selectedChip.classList.add('selected');
+    document.getElementById(`gender${gender}`).checked = true;
+  }
+  
+  // Show Message
+  function showMessage(message, type = 'error') {
+    const messageBox = document.getElementById('messageBox');
+    messageBox.textContent = message;
+    messageBox.className = 'message-box ' + type;
+    
+    setTimeout(() => {
+      messageBox.className = 'message-box';
+    }, 4000);
+  }
+  
+  // Handle Sign In
+  function handleSignIn(event) {
+    event.preventDefault();
+    
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    
+    // Validation
+    if (!email) {
+      showMessage('📧 Please enter your email address', 'error');
+      return;
+    }
+    
+    if (!password) {
+      showMessage(isPasscodeMode ? '🔢 Please enter your 6-digit passcode' : '🔒 Please enter your password', 'error');
+      return;
+    }
+    
+    // Email format validation
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      showMessage('📧 Please enter a valid email address', 'error');
+      return;
+    }
+    
+    // Passcode validation
+    if (isPasscodeMode) {
+      if (!/^\d{6}$/.test(password)) {
+        showMessage('🔢 Passcode must be exactly 6 digits (0-9 only)', 'error');
+        return;
+      }
+    } else {
+      if (password.length < 4) {
+        showMessage('🔒 Password must be at least 4 characters', 'error');
+        return;
+      }
+    }
+    
+    // Student specific validation
+    if (currentRole === 'student') {
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName = document.getElementById('lastName').value.trim();
+      const age = document.getElementById('age').value;
+      const grade = document.getElementById('grade').value;
+      const genderSelected = document.querySelector('input[name="gender"]:checked');
+      
+      if (!firstName) {
+        showMessage('📝 Please enter your first name', 'error');
+        return;
+      }
+      
+      if (!lastName) {
+        showMessage('📝 Please enter your last name', 'error');
+        return;
+      }
+      
+      if (!age) {
+        showMessage('🎂 Please enter your age', 'error');
+        return;
+      }
+      
+      if (age < 4 || age > 13) {
+        showMessage('🎂 Age must be between 4 and 13 years', 'error');
+        return;
+      }
+      
+      if (!grade) {
+        showMessage('📚 Please select your grade', 'error');
+        return;
+      }
+      
+      if (!genderSelected) {
+        showMessage('👤 Please select your gender', 'error');
+        return;
+      }
+      
+      // Save student data
+      const studentData = {
+        firstName: firstName,
+        lastName: lastName,
+        fullName: firstName + ' ' + lastName,
+        email: email,
+        age: age,
+        grade: grade,
+        gender: genderSelected.value,
+        role: 'student',
+        loginMethod: isPasscodeMode ? 'passcode' : 'password',
+        signedIn: new Date().toLocaleString()
+      };
+      localStorage.setItem('mathworld_user', JSON.stringify(studentData));
+      
+      showMessage(`🎉 Welcome ${firstName}! Signing in as Student...`, 'success');
+      
+      // Redirect after 1.5 seconds
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 1500);
+      
+    } else {
+      // Teacher login
+      if (email === 'teacher@mathworld.com') {
+        if ((!isPasscodeMode && password === 'teacher123') || (isPasscodeMode && password === '123456')) {
+          const teacherData = {
+            email: email,
+            role: 'teacher',
+            loginMethod: isPasscodeMode ? 'passcode' : 'password',
+            signedIn: new Date().toLocaleString()
+          };
+          localStorage.setItem('mathworld_user', JSON.stringify(teacherData));
+          
+          showMessage('🎓 Welcome Teacher! Redirecting to dashboard...', 'success');
+          
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 1500);
+        } else {
+          showMessage('Invalid credentials. Use: teacher@mathworld.com / teacher123 (or passcode: 123456)', 'error');
+        }
+      } else {
+        showMessage('Teacher email not recognized. Use: teacher@mathworld.com', 'error');
+      }
+    }
+  }
+  
+  // Forgot Password Modal
+  function showForgotPasswordModal(event) {
+    event.preventDefault();
+    document.getElementById('forgotModal').classList.add('show');
+  }
+  
+  function closeForgotModal() {
+    document.getElementById('forgotModal').classList.remove('show');
+    document.getElementById('resetEmail').value = '';
+  }
+  
+  function closeModalOnClick(event) {
+    if (event.target === document.getElementById('forgotModal')) {
+      closeForgotModal();
+    }
+  }
+  
+  function sendResetLink() {
+    const resetEmail = document.getElementById('resetEmail').value.trim();
+    
+    if (!resetEmail) {
+      alert('📧 Please enter your email address');
+      return;
+    }
+    
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(resetEmail)) {
+      alert('📧 Please enter a valid email address');
+      return;
+    }
+    
+    alert(`✅ Recovery link sent to ${resetEmail}\n\n( Demo: In production, an email would be sent with reset instructions )`);
+    closeForgotModal();
+  }
+  
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    selectRole('student');
+    
+    // Add focus effects to all inputs
+    const inputs = document.querySelectorAll('input, select');
+    inputs.forEach(input => {
+      input.addEventListener('focus', function() {
+        this.parentElement.style.transform = 'translateX(2px)';
+      });
+      input.addEventListener('blur', function() {
+        this.parentElement.style.transform = 'translateX(0)';
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
